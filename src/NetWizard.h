@@ -5,7 +5,7 @@
 | |\  |  __/ |_ \ V  V / | |/ / (_| | | | (_| |
 |_| \_|\___|\__| \_/\_/  |_/___\__,_|_|  \__,_|
                                                
-A simple yet powerful WiFi manager for wireless microcontrollers.
+An easy-to-use yet powerful WiFi manager and captive portal library for wireless microcontrollers.
 
 Author: Ayush Sharma (ayush@softt.io)
 
@@ -20,7 +20,7 @@ Upgrade to NetWizard Pro: https://netwizard.pro
 #endif
 
 #ifndef NETWIZARD_DEBUG
-  #define NETWIZARD_DEBUG 1
+  #define NETWIZARD_DEBUG 0
 #endif
 
 #if NETWIZARD_DEBUG

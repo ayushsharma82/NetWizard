@@ -9,9 +9,9 @@
 </p>
 <br/>
 
-<b>NetWizard</b> is an easy-to-use yet powerful WiFi manager and captive portal for your wireless microcontrollers. Avoid the hassle of manually setting up WiFi and let NetWizard take care of everything for your device!
+<b>NetWizard</b> is an easy-to-use yet powerful WiFi manager and captive portal library for wireless microcontrollers. Avoid the hassle of hard-coding WiFi credentials and let NetWizard take care of networking for your device!
 
-Additionally, NetWizard lets you create an custom configuration page of your choice which is shown at the time of setup. For example: for entering MQTT credentials etc.
+Additionally, NetWizard lets you create an custom configuration page of your choice which is shown at the time of setup. The possibilities are endless! 
 
 <br/>
 <br/>
@@ -47,14 +47,14 @@ NetWizard works on the following microcontrollers/boards:
 <br/>
 <br/>
 
-<img src="/docs/netwizard-lite-preview.gif" width="800">
+<img src="/docs/netwizard-lite-preview.gif" width="1200">
 
 <br/>
 <br/>
 
 ## Want More? Upgrade to Pro
 
-NetWizard Pro will be launched in July 2024 and it will soon be available at: [Official Webstore (netwizard.pro)](https://netwizard.pro?ref=ghrepo). More details regarding feature set and other things will be updated here once released.
+NetWizard Pro will be launched in July 2024 and it will soon be available at: [Official Website (netwizard.pro)](https://netwizard.pro?ref=ghrepo). More details regarding feature set and other things will be updated here once released.
 
 <!-- 
 Netwizard Pro comes with the following extended functionality:
