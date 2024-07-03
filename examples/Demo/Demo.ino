@@ -12,7 +12,6 @@
   WiKi: https://docs.netwizard.pro
 
   Works with following hardware:
-  - ESP8266
   - ESP32
   - RP2040 (with WiFi) (Example: Raspberry Pi Pico W)
 
@@ -29,20 +28,10 @@
 
 */
 
-#if defined(ESP8266)
-  #include <ESP8266WebServer.h>
-#elif defined(ESP32)
-  #include <WebServer.h>
-#elif defined(TARGET_RP2040)
-  #include <WebServer.h>
-#endif
+#include <WebServer.h>
 #include <NetWizard.h>
 
-#if defined(ESP8266)
-  ESP8266WebServer server(80);
-#elif defined(ESP32) || defined(TARGET_RP2040)
-  WebServer server(80);
-#endif
+WebServer server(80);
 
 // Initialize NetWizard
 NetWizard NW(&server);

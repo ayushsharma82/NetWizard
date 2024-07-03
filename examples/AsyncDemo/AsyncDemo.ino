@@ -1,27 +1,30 @@
 /*
-  ------------------------
-  NetWizard - Demo Example
-  ------------------------
+  ------------------------------
+  NetWizard - Async Demo Example
+  ------------------------------
 
   Skill Level: Beginner
 
   This example provides with a bare minimal app with
-  NetWizard WiFi manager and captive portal functionality.
+  NetWizard WiFi manager and captive portal functionality using async mode.
 
   Github: https://github.com/ayushsharma82/NetWizard
   WiKi: https://docs.netwizard.pro
 
   Works with following hardware:
-  - ESP8266
   - ESP32
   - RP2040 (with WiFi) (Example: Raspberry Pi Pico W)
-
 
   Important note for RP2040 users:
   - RP2040 requires LittleFS partition for saving credentials.
     Without LittleFS partition, the app will fail to persist any data.
     Make sure to select Tools > Flash Size > "2MB (Sketch 1MB, FS 1MB)" option.
-  - If using bare RP2040, it requires WiFi module like Pico W for NetWizard to work.
+  - Doesn't works with bare RP2040, it requires WiFi module/chip (network co-processor)
+    like in Pico W for NetWizard to work.
+
+  NOTE: Asnyc mode required AsyncWebServer dependency and
+  please make sure to enable async flag in NetWizard.h as per the docs:
+  https://docs.netwizard.pro/async-mode
 
   -------------------------------
 
@@ -29,9 +32,7 @@
 
 */
 
-#if defined(ESP8266)
-  #include <ESPAsyncTCP.h>
-#elif defined(ESP32)
+#if defined(ESP32)
   #include <AsyncTCP.h>
 #elif defined(RP2040)
   #include <AsyncTCP_RP2040W.h>
