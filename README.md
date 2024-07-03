@@ -3,7 +3,7 @@
 <p>
 <img src="https://img.shields.io/github/last-commit/ayushsharma82/NetWizard.svg?style=for-the-badge" />
 &nbsp;
-<img src="https://img.shields.io/github/actions/workflow/status/ayushsharma82/NetWizard/ci.yml?branch=master&style=for-the-badge" />
+<img src="https://img.shields.io/github/actions/workflow/status/ayushsharma82/NetWizard/ci.yml?branch=main&style=for-the-badge" />
 &nbsp;
 <img src="https://img.shields.io/github/license/ayushsharma82/NetWizard.svg?style=for-the-badge" />
 </p>
