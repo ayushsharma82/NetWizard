@@ -45,6 +45,7 @@ NetWizard works on the following microcontrollers/boards:
 <p>Once you have integrated NetWizard library in your code, you can connect to your device's AP and then this captive portal will pop up for you to configure your device:
 
 <br/>
+<br/>
 
 <img src="/docs/netwizard-lite-preview.gif" width="800">
 
