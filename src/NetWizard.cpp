@@ -225,6 +225,13 @@ void NetWizard::reset() {
   // disconnect from wifi 
   _disconnect();
   _nw.status = NetWizardConnectionStatus::DISCONNECTED;
+
+  // stop captive portal
+  if (_nw.portal.active) {
+    // set exit flag
+    _nw.portal.exit.flag = true;
+    _nw.portal.exit.millis = millis();
+  }
 }
 
 void NetWizard::loop() {
