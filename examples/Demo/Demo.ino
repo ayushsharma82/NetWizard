@@ -123,6 +123,7 @@ void setup(void) {
     // Print new parameter values
     Serial.printf("Host: %s\n", nw_mqtt_host.getValue().c_str());
     Serial.printf("Port: %s\n", nw_mqtt_port.getValue().c_str());
+    return true; // <-- return true to approve request, false to reject
   });
 
   // Start NetWizard
