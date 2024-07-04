@@ -127,6 +127,14 @@ void setup(void) {
     Serial.printf("NW portal state changed: %s\n", state_str);
   });
 
+  NW.onConfig([&]() {
+    Serial.println("NW onConfig Received");
+
+    // Print new parameter values
+    Serial.printf("Host: %s\n", nw_mqtt_host.getValue().c_str());
+    Serial.printf("Port: %s\n", nw_mqtt_port.getValue().c_str());
+  });
+
   // Start NetWizard
   NW.autoConnect("NetWizard Demo", "");
   
