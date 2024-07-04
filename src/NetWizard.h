@@ -160,6 +160,7 @@ class NetWizard {
     // status
     bool isConfigured();
     NetWizardConnectionStatus getConnectionStatus();
+    NetWizardPortalState getPortalState();
     const char* getSSID();
     const char* getPassword();
     void getBSSID(uint8_t* bssid);

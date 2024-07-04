@@ -171,6 +171,10 @@ NetWizardConnectionStatus NetWizard::getConnectionStatus() {
   return _nw.status;
 }
 
+NetWizardPortalState NetWizard::getPortalState() {
+  return _nw.portal.state;
+}
+
 const char* NetWizard::getSSID() {
   return _nw.sta.ssid.c_str();
 }
