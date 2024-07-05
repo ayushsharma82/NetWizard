@@ -14,7 +14,6 @@
 Additionally, NetWizard lets you create an custom configuration page of your choice which is shown at the time of setup. The possibilities are endless! 
 
 <br/>
-<br/>
 
 ## Features
 
