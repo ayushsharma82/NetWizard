@@ -1,4 +1,5 @@
 import '@/styles/tailwind.css'
+import Script from 'next/script'
 
 import clsx from 'clsx'
 import localFont from 'next/font/local'
@@ -36,15 +37,19 @@ export default function RootLayout({ children }) {
     >
       <head>
         <Script
-          async 
+          strategy='lazyOnload'
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
         />
-        <Script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
 
-          gtag('config', ${'${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}'});
+        <Script strategy='lazyOnload'>
+          {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+                page_path: window.location.pathname,
+                });
+            `}
         </Script>
       </head>
       <body className="flex min-h-full bg-white dark:bg-gray-900">
