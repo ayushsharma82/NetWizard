@@ -34,6 +34,19 @@ export default function RootLayout({ children }) {
       className={clsx('h-full antialiased scroll-smooth', inter.variable, lexend.variable)}
       suppressHydrationWarning
     >
+      <head>
+        <Script
+          async 
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+        />
+        <Script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', ${'${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}'});
+        </Script>
+      </head>
       <body className="flex min-h-full bg-white dark:bg-gray-900">
         <Providers>
           <Layout>{children}</Layout>
