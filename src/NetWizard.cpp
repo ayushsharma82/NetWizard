@@ -171,6 +171,10 @@ NetWizardConnectionStatus NetWizard::getConnectionStatus() {
   return _nw.status;
 }
 
+NetWizardPortalState NetWizard::getPortalState() {
+  return _nw.portal.state;
+}
+
 const char* NetWizard::getSSID() {
   return _nw.sta.ssid.c_str();
 }
@@ -221,6 +225,13 @@ void NetWizard::reset() {
   // disconnect from wifi 
   _disconnect();
   _nw.status = NetWizardConnectionStatus::DISCONNECTED;
+
+  // stop captive portal
+  if (_nw.portal.active) {
+    // set exit flag
+    _nw.portal.exit.flag = true;
+    _nw.portal.exit.millis = millis();
+  }
 }
 
 void NetWizard::loop() {
@@ -356,6 +367,8 @@ void NetWizard::removeParameter(NetWizardParameter* parameter) {
 }
 
 void NetWizard::_connect(const char* ssid, const char* password) {
+  // Set hostname
+  WiFi.setHostname(_nw.hostname.c_str());
   // Connect to WiFi
   WiFi.begin(ssid, password);
   _nw.status = NetWizardConnectionStatus::CONNECTING;
