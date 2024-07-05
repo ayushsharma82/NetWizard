@@ -367,6 +367,8 @@ void NetWizard::removeParameter(NetWizardParameter* parameter) {
 }
 
 void NetWizard::_connect(const char* ssid, const char* password) {
+  // Set hostname
+  WiFi.setHostname(_nw.hostname.c_str());
   // Connect to WiFi
   WiFi.begin(ssid, password);
   _nw.status = NetWizardConnectionStatus::CONNECTING;
