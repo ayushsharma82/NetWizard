@@ -29,8 +29,9 @@ Upgrade to NetWizard Pro: https://netwizard.pro
   #define NETWIZARD_DEBUG_MSG(x) 
 #endif
 
-#define NETWIZARD_PORTAL_TIMEOUT      60000 * 5   // 5 minutes
-#define NETWIZARD_CONNECT_TIMEOUT     30000       // 30 seconds
+#define NETWIZARD_PORTAL_TIMEOUT      60000 * 5  // 5 minutes
+#define NETWIZARD_CONNECT_TIMEOUT     30000      // 30 seconds
+#define NETWIZARD_EXIT_TIMEOUT        5000       // 5 seconds
 
 #include "Arduino.h"
 #include "stdlib_noniso.h"
@@ -165,6 +166,9 @@ class NetWizard {
     const char* getPassword();
     void getBSSID(uint8_t* bssid);
     uint8_t getChannel();
+    IPAddress localIP();
+    IPAddress gatewayIP();
+    IPAddress subnetMask();
 
     bool connect();
     bool connect(const char* ssid, const char* password);
@@ -194,6 +198,7 @@ class NetWizard {
     NETWIZARD_REQ_HANDLER *_exit_handler     = nullptr;
     bool _server_running = false;
     DNSServer* _dns = nullptr;
+    bool _dns_running = false;
 
     // nw params
     struct {
