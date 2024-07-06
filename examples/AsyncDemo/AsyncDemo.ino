@@ -96,6 +96,14 @@ void setup(void) {
     }
 
     Serial.printf("NW connection status changed: %s\n", status_str);
+    if (status == NetWizardConnectionStatus::CONNECTED) {
+      // Local IP
+      Serial.printf("Local IP: %s\n", NW.localIP().toString().c_str());
+      // Gateway IP
+      Serial.printf("Gateway IP: %s\n", NW.gatewayIP().toString().c_str());
+      // Subnet mask
+      Serial.printf("Subnet mask: %s\n", NW.subnetMask().toString().c_str());
+    }
   });
 
   // Listen for portal state changes
@@ -126,14 +134,6 @@ void setup(void) {
     }
 
     Serial.printf("NW portal state changed: %s\n", state_str);
-    if (status == NetWizardConnectionStatus::CONNECTED) {
-      // Local IP
-      Serial.printf("Local IP: %s\n", NW.localIP().toString().c_str());
-      // Gateway IP
-      Serial.printf("Gateway IP: %s\n", NW.gatewayIP().toString().c_str());
-      // Subnet mask
-      Serial.printf("Subnet mask: %s\n", NW.subnetMask().toString().c_str());
-    }
   });
 
   NW.onConfig([&]() {
