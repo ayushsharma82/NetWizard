@@ -192,6 +192,18 @@ uint8_t NetWizard::getChannel() {
   return WiFi.channel();
 }
 
+IPAddress NetWizard::localIP() {
+  return WiFi.localIP();
+}
+
+IPAddress NetWizard::gatewayIP() {
+  return WiFi.gatewayIP();
+}
+
+IPAddress NetWizard::subnetMask() {
+  return WiFi.subnetMask();
+}
+
 bool NetWizard::connect() {
   if (_nw.sta.configured) {
     _connect(_nw.sta.ssid.c_str(), _nw.sta.password.c_str());

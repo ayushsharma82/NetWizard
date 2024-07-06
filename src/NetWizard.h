@@ -166,6 +166,9 @@ class NetWizard {
     const char* getPassword();
     void getBSSID(uint8_t* bssid);
     uint8_t getChannel();
+    IPAddress localIP();
+    IPAddress gatewayIP();
+    IPAddress subnetMask();
 
     bool connect();
     bool connect(const char* ssid, const char* password);
