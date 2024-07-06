@@ -56,6 +56,7 @@ void setup(void) {
   delay(3000);
   Serial.begin(115200);
   Serial.println("");
+  Serial.println("Starting NetWizard Async Demo...");
 
   // ----------------------------
   // Configure NetWizard Strategy
@@ -125,6 +126,14 @@ void setup(void) {
     }
 
     Serial.printf("NW portal state changed: %s\n", state_str);
+    if (status == NetWizardConnectionStatus::CONNECTED) {
+      // Local IP
+      Serial.printf("Local IP: %s\n", NW.localIP().toString().c_str());
+      // Gateway IP
+      Serial.printf("Gateway IP: %s\n", NW.gatewayIP().toString().c_str());
+      // Subnet mask
+      Serial.printf("Subnet mask: %s\n", NW.subnetMask().toString().c_str());
+    }
   });
 
   NW.onConfig([&]() {
@@ -142,16 +151,6 @@ void setup(void) {
   // Check if configured
   if (NW.isConfigured()) {
     Serial.println("Device is configured");
-    // Check if we are connected to WiFi
-    if (NW.getConnectionStatus() == NetWizardConnectionStatus::CONNECTED) {
-      // Print network details
-      Serial.print("Connected to ");
-      Serial.println(NW.getSSID());
-      Serial.print("IP address: ");
-      Serial.println(WiFi.localIP());;
-    } else {
-      Serial.println("Not connected to any WiFi");
-    }
   } else {
     Serial.println("Device is not configured");
   }
