@@ -63,6 +63,9 @@ export const navigation = [
       { title: 'getPassword', href: '/docs/api/get-password' },
       { title: 'getBSSID', href: '/docs/api/get-bssid' },
       { title: 'getChannel', href: '/docs/api/get-channel' },
+      { title: 'localIP', href: '/docs/api/local-ip' },
+      { title: 'gatewayIP', href: '/docs/api/gateway-ip' },
+      { title: 'subnetMask', href: '/docs/api/subnet-mask' },
     ]
   },
   {
