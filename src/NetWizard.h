@@ -29,8 +29,9 @@ Upgrade to NetWizard Pro: https://netwizard.pro
   #define NETWIZARD_DEBUG_MSG(x) 
 #endif
 
-#define NETWIZARD_PORTAL_TIMEOUT      60000 * 5   // 5 minutes
-#define NETWIZARD_CONNECT_TIMEOUT     30000       // 30 seconds
+#define NETWIZARD_PORTAL_TIMEOUT      60000 * 5  // 5 minutes
+#define NETWIZARD_CONNECT_TIMEOUT     30000      // 30 seconds
+#define NETWIZARD_EXIT_TIMEOUT        5000       // 5 seconds
 
 #include "Arduino.h"
 #include "stdlib_noniso.h"

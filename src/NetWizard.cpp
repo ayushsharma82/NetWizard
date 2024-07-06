@@ -304,7 +304,7 @@ void NetWizard::loop() {
           // _nw.portal.exit.flag = true;
           _nw.portal.state = NetWizardPortalState::SUCCESS;
         } else {
-          if ((unsigned long)(millis() - _nw.portal.connect_millis) > 30000) {
+          if ((unsigned long)(millis() - _nw.portal.connect_millis) > NETWIZARD_EXIT_TIMEOUT) {
             NETWIZARD_DEBUG_MSG("Error: connection to temporary credentials timeout!\n");
             _nw.portal.sta.ssid = "";
             _nw.portal.sta.password = "";
