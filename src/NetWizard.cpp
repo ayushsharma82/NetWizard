@@ -62,8 +62,14 @@ void NetWizard::setCredentials(const char* ssid, const char* password) {
 
 void NetWizard::autoConnect(const char* ssid, const char* password) {
   // Reset network
+  if (WiFi.getMode() != WIFI_OFF) {
+    // Disconnect before turning off radio
+    if (WiFi.status() == WL_CONNECTED) {
   _disconnect();
+    }
+    // Turn off radio
   WiFi.mode(WIFI_OFF);
+  }
   // Load AP credentials
   _nw.portal.ap.ssid = ssid;
   _nw.portal.ap.password = password;
