@@ -65,10 +65,10 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
   if (WiFi.getMode() != WIFI_OFF) {
     // Disconnect before turning off radio
     if (WiFi.status() == WL_CONNECTED) {
-  _disconnect();
+      _disconnect();
     }
     // Turn off radio
-  WiFi.mode(WIFI_OFF);
+    WiFi.mode(WIFI_OFF);
   }
   // Load AP credentials
   _nw.portal.ap.ssid = ssid;
@@ -800,7 +800,7 @@ void NetWizard::_startHTTP() {
 
       // check if JSON object is available
       if (request->hasArg("plain") == false) {
-        NETWIZARD_DEBUG_MSG("Invalid request data");
+        NETWIZARD_DEBUG_MSG("Invalid request data\n");
         return request->send(400, "text/plain", "Request body not found");
       }
       
@@ -815,7 +815,7 @@ void NetWizard::_startHTTP() {
 
       // check if JSON object is valid
       if (!json.is<JsonObject>() || json.size() == 0) {
-        NETWIZARD_DEBUG_MSG("Invalid json");
+        NETWIZARD_DEBUG_MSG("Invalid json\n");
         return request->send(400, "text/plain", "Invalid request data");
       }
 
@@ -953,7 +953,7 @@ void NetWizard::_startHTTP() {
 
       // check if JSON object is available
       if (_server->hasArg("plain") == false) {
-        NETWIZARD_DEBUG_MSG("Invalid request data");
+        NETWIZARD_DEBUG_MSG("Invalid request data\n");
         return _server->send(400, "text/plain", "Request body not found");
       }
       
@@ -968,7 +968,7 @@ void NetWizard::_startHTTP() {
 
       // check if JSON object is valid
       if (!json.is<JsonObject>() || json.size() == 0) {
-        NETWIZARD_DEBUG_MSG("Invalid json");
+        NETWIZARD_DEBUG_MSG("Invalid json\n");
         return _server->send(400, "text/plain", "Invalid request data");
       }
 
@@ -1090,8 +1090,10 @@ void NetWizard::_startPortal() {
   if (this->isConfigured()) {
     // If connection status is not NOT_FOUND, then disconnect
     if (_nw.status == NetWizardConnectionStatus::NOT_FOUND) {
+      NETWIZARD_DEBUG_MSG("Configured connection not found. Starting portal with AP only.\n");
       _disconnect();
     } else {
+      NETWIZARD_DEBUG_MSG("Starting portal in AP+STA mode\n");
       _connect(_nw.sta.ssid.c_str(), _nw.sta.password.c_str());
     }
     WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password.c_str());
@@ -1123,6 +1125,7 @@ void NetWizard::_startPortal() {
   
   // Start HTTP
   _startHTTP();
+  NETWIZARD_DEBUG_MSG("Started HTTP\n");
 
   // Store time of Portal start
   _nw.portal.active = true;
@@ -1133,16 +1136,19 @@ void NetWizard::_startPortal() {
 void NetWizard::_stopPortal() {
   // Stop HTTP
   _stopHTTP();
+  NETWIZARD_DEBUG_MSG("Stopped HTTP\n");
 
   // Stop DNS
   if (_dns != nullptr) {
     _dns->stop();
     delete _dns;
     _dns = nullptr;
+    NETWIZARD_DEBUG_MSG("Stopped DNS Server\n");
   }
   // Stop Portal
   WiFi.softAPdisconnect(true);
   if (this->isConfigured()) {
+    NETWIZARD_DEBUG_MSG("Connecting to configured connection\n");
     WiFi.mode(WIFI_STA);
     WiFi.persistent(false);
     #if defined(ESP8266) || defined(ESP32)
@@ -1150,6 +1156,7 @@ void NetWizard::_stopPortal() {
     #endif
     _connect(_nw.sta.ssid.c_str(), _nw.sta.password.c_str());
   } else {
+    NETWIZARD_DEBUG_MSG("Switching off wifi as the device is not configured\n");
     WiFi.mode(WIFI_OFF);
   }
 
