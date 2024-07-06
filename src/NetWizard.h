@@ -195,6 +195,7 @@ class NetWizard {
     NETWIZARD_REQ_HANDLER *_exit_handler     = nullptr;
     bool _server_running = false;
     DNSServer* _dns = nullptr;
+    bool _dns_running = false;
 
     // nw params
     struct {

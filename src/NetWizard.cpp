@@ -242,7 +242,22 @@ void NetWizard::loop() {
   #endif
   
   if (_dns != nullptr) {
-    _dns->processNextRequest();
+    // Check if DNS server is running
+    if (!_dns_running) {
+      #if defined(ESP32)
+        if (WiFi.AP.hasIP()) {
+          _dns->start(53, "*", WiFi.AP.localIP());
+          _dns_running = true;
+          NETWIZARD_DEBUG_MSG("Started DNS Server (loop)\n");
+        }
+      #else
+       _dns->start(53, "*", WiFi.softAPIP());
+       _dns_running = true;
+        NETWIZARD_DEBUG_MSG("Started DNS Server (loop)\n");
+      #endif
+    } else {
+      _dns->processNextRequest();
+    }
   }
 
   if (WiFi.status() == WL_CONNECTED) {
@@ -1067,10 +1082,27 @@ void NetWizard::_startPortal() {
   }
 
   // Start DNS
-  _dns = new DNSServer();
-  _dns->setErrorReplyCode(DNSReplyCode::NoError);
-  _dns->start(53, "*", WiFi.softAPIP());
-
+  if (_dns == nullptr) {
+    _dns = new DNSServer();
+    _dns->setErrorReplyCode(DNSReplyCode::NoError);
+    NETWIZARD_DEBUG_MSG("Initialized DNS Server\n");
+    #if defined(ESP32)
+      if (WiFi.AP.hasIP()) {
+        NETWIZARD_DEBUG_MSG("AP IP:\n");
+        NETWIZARD_DEBUG_MSG(WiFi.AP.localIP().toString() + "\n");
+        _dns->start(53, "*", WiFi.AP.localIP());
+        _dns_running = true;      
+        NETWIZARD_DEBUG_MSG("Started DNS Server\n");
+      }
+    #else
+      NETWIZARD_DEBUG_MSG("AP IP:\n");
+      NETWIZARD_DEBUG_MSG(WiFi.softAPIP().toString() + "\n");
+      _dns->start(53, "*", WiFi.softAPIP());
+      _dns_running = true;
+      NETWIZARD_DEBUG_MSG("Started DNS Server\n");
+    #endif
+  }
+  
   // Start HTTP
   _startHTTP();
 
