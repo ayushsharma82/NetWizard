@@ -11,14 +11,14 @@
 
 <b>NetWizard</b> is an easy-to-use yet powerful WiFi manager and captive portal library for wireless microcontrollers. Avoid the hassle of hard-coding WiFi credentials and let NetWizard take care of networking for your device!
 
-Additionally, NetWizard lets you create an custom configuration page of your choice which is shown at the time of setup. The possibilities are endless! 
+Additionally, NetWizard lets you create a custom configuration page of your choice which is shown at the time of setup. The possibilities are endless! 
 
 <br/>
 
 ## Features
 
 - 🛜 No hard-coded WiFi credentials
-- ⚙️ Create an custom configuration page using just C++
+- ⚙️ Create a custom configuration page using just C++
 - ⚡ Intuitive step-by-step setup flow which makes user interaction easier
 - 🎷 No need to learn HTML/CSS/JS
 - 🛫 Ready to use within 4-5 lines of code
