@@ -25,11 +25,11 @@
     {
       "owner": "mathieucarbou",
       "name": "ESP Async WebServer",
-      "version": "^3.0.5",
+      "version": "^3.0.6",
       "platforms": ["espressif8266", "espressif32"]
     }
   ],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "frameworks": "arduino",
   "platforms": ["espressif32", "raspberrypi"]
 }
