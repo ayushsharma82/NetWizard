@@ -32,6 +32,10 @@ String NetWizardParameter::getPlaceholder() {
   return _placeholder;
 }
 
+void NetWizardParameter::setPlaceholder(const char* placeholder) {
+  _placeholder = placeholder;
+}
+
 NetWizardParameter::~NetWizardParameter() {
   _value = "";
   _placeholder = "";
