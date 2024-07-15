@@ -28,7 +28,7 @@ NetWizard depends on the following dependencies to work properly. Please stricly
 
 ---
 
-## Installing NetWizard
+## For Arduino IDE
 
 ### 1. Directly Through Arduino IDE (Library Manager)
 
@@ -49,3 +49,22 @@ Go to Sketch > Include Library > Library Manager > Search for "NetWizard" > Inst
 - Download the [Repository](https://github.com/ayushsharma82/NetWizard/archive/master.zip) 
 - Extract the .zip in `Sketchbook > Libraries > {Place "NetWizard" folder Here}`
 
+## For PlatformIO
+
+### Modifications in PlatformIO.ini
+
+As NetWizard supports multiple platforms, before you install/import NetWizard in your PlatformIO projects, it's neccessary to add these following lines in your `platformio.ini` file for your project to compile successfully:
+
+```ini
+lib_compat_mode = soft
+lib_ldf_mode = chain
+```
+
+### 1. Import through PlatformIO
+
+Go to Libraries tab in PIO > Search for "NetWizard" > Import in your project
+
+### 2. Manual Install
+
+- Download the [Repository](https://github.com/ayushsharma82/NetWizard/archive/master.zip)
+- Extract the .zip in your project's `lib` folder
