@@ -1,4 +1,4 @@
-<p align="center"><a href="https://netwizard.pro?ref=ghfeature" target="_blank"><img src="/docs/netwizard-feature.png" width="1200"></a></p>
+<p align="center"><a href="https://netwizard.pro?ref=ghfeature" target="_blank"><img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/netwizard-feature.png" width="1200"></a></p>
 <br/>
 <p>
 <img src="https://img.shields.io/github/last-commit/ayushsharma82/NetWizard.svg?style=for-the-badge" />
@@ -46,23 +46,21 @@ NetWizard works on the following microcontrollers/boards:
 <br/>
 <br/>
 
-<img src="/docs/netwizard-lite-preview.gif" width="1200">
+<img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/netwizard-lite-preview.gif" width="1200">
 
 <br/>
 <br/>
 
 ## Want More? Upgrade to Pro
 
-NetWizard Pro will be launched in July 2024 and it will soon be available at: [Official Website (netwizard.pro)](https://netwizard.pro?ref=ghrepo). More details regarding feature set and other things will be updated here once released.
-
-<!-- 
 Netwizard Pro comes with the following extended functionality:
 
-- ...
-- ...
-- ...
-- ...
-- ...
+- Exclusive Parameters
+- Links
+- Statistics
+- Whitelabel / Branding
+- UI Source
+- Commercial License (SCL-1.1)
 
 <br> <b>Available here: </b>
 
@@ -71,8 +69,8 @@ Netwizard Pro comes with the following extended functionality:
 <br/>
 
 <a href="https://netwizard.pro?ref=ghpropreview" target="_blank">
-  <img src="/docs/pro-preview.png" alt="NetWizard Pro" width="1200">
-</a> -->
+  <img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/pro-preview.png" alt="NetWizard Pro" width="1200">
+</a>
 
 <br>
 <br>
