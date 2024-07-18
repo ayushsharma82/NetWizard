@@ -18,28 +18,29 @@ export const navigation = [
       { title: 'Divider', href: '/docs/parameters/types/divider' },
       { title: 'Spacer', href: '/docs/parameters/types/spacer' },
       { title: 'Input', href: '/docs/parameters/types/input' },
-      // { title: 'Toggle (Pro)', href: '/docs/parameters/types/toggle' },
+      { title: 'Password Input (Pro)', href: '/docs/parameters/types/password-input' },
+      { title: 'Toggle (Pro)', href: '/docs/parameters/types/toggle' },
     ]
   },
-  // {
-  //   title: 'Statistics',
-  //   links: [
-  //     { title: 'Setup Statistics (Pro)', href: '/docs/links/setup' },
-  //   ]
-  // },
-  // {
-  //   title: 'Links',
-  //   links: [
-  //     { title: 'Setup Links (Pro)', href: '/docs/links/setup' },
-  //   ]
-  // },
-  // {
-  //   title: 'Personalize',
-  //   links: [
-  //     { title: 'Branding (Pro)', href: '/docs/branding' },
-  //     { title: 'Custom Title (Pro)', href: '/docs/custom-title' },
-  //   ],
-  // },
+  {
+    title: 'Statistics (Pro)',
+    links: [
+      { title: 'Setup Statistics', href: '/docs/statistics/setup' },
+    ]
+  },
+  {
+    title: 'Links (Pro)',
+    links: [
+      { title: 'Setup Links', href: '/docs/links/setup' },
+    ]
+  },
+  {
+    title: 'Personalize',
+    links: [
+      { title: 'Branding (Pro)', href: '/docs/personalization/branding' },
+      { title: 'Custom Title (Pro)', href: '/docs/personalization/custom-title' },
+    ],
+  },
   {
     title: 'Core API',
     links: [

@@ -3,7 +3,7 @@ title: Header
 nextjs:
   metadata:
     title: Parameters | Header
-    description: Learn more about on header parameter type in NetWizard.
+    description: Learn more about header parameter type in NetWizard.
 ---
 
 ![Header](/nw-header.png)

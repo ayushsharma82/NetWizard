@@ -33,6 +33,8 @@ Parameters can be of following types, please refer to each type for more details
 - [Divider](/docs/parameters/types/input)
 - [Spacer](/docs/parameters/types/spacer)
 - [Input](/docs/parameters/types/input)
+- [Password Input](/docs/parameters/types/password-input)
+- [Toggle](/docs/parameters/types/toggle)
 
 ## API Reference
 

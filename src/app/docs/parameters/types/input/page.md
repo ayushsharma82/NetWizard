@@ -3,7 +3,7 @@ title: Input
 nextjs:
   metadata:
     title: Parameters | Input
-    description: Learn more about on input parameter type in NetWizard.
+    description: Learn more about input parameter type in NetWizard.
 ---
 
 ![Input](/nw-input.png)
@@ -24,8 +24,9 @@ NetWizardParameter nw_input(&NW, NW_INPUT, "Name", "Value", "Placeholder");
 
 ## API Reference
 
-```cpp
+### Initialization
 
+```cpp
 NetWizard NW(&server);
 
 NetWizardParameter nw_input(&NW, NW_INPUT, "MQTT Host", "", "mqtt.example.com"); // <-- add this line
@@ -37,4 +38,23 @@ void setup() {
 void loop() {
   ...
 }
+```
+
+### Getters
+
+```cpp
+// Store the value of the input in `val` using `getValue`
+String val;
+nw_input.getValue(val);
+```
+
+```cpp
+String val = nw_input.getValueStr(); // <-- get value inline
+```
+
+### Setters
+
+```cpp
+// Set the value of the input using `setValue`
+nw_input.setValue("Value123");
 ```
