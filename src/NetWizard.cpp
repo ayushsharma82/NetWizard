@@ -821,13 +821,6 @@ void NetWizard::_startHTTP() {
 
       JsonObject obj = json.as<JsonObject>();
 
-      if (obj.containsKey("credentials") && obj["credentials"].is<JsonObject>()) {
-        JsonObject credentials = obj["credentials"];
-        if (!_parseCredentialsJson(credentials)) {
-          return request->send(400, "text/plain", "Invalid request data");
-        }
-      }
-
       if (obj.containsKey("params") && obj["params"].is<JsonArray>()) {
         JsonArray params = obj["params"];
         if (!_parseConfigJson(params)) {
@@ -837,6 +830,13 @@ void NetWizard::_startHTTP() {
           if (!obj.containsKey("credentials")) {
             _nw.portal.state = NetWizardPortalState::SUCCESS;
           }
+        }
+      }
+
+      if (obj.containsKey("credentials") && obj["credentials"].is<JsonObject>()) {
+        JsonObject credentials = obj["credentials"];
+        if (!_parseCredentialsJson(credentials)) {
+          return request->send(400, "text/plain", "Invalid request data");
         }
       }
 
@@ -974,13 +974,6 @@ void NetWizard::_startHTTP() {
 
       JsonObject obj = json.as<JsonObject>();
 
-      if (obj.containsKey("credentials") && obj["credentials"].is<JsonObject>()) {
-        JsonObject credentials = obj["credentials"];
-        if (!_parseCredentialsJson(credentials)) {
-          return _server->send(400, "text/plain", "Invalid request data");
-        }
-      }
-
       if (obj.containsKey("params") && obj["params"].is<JsonArray>()) {
         JsonArray params = obj["params"];
         if (!_parseConfigJson(params)) {
@@ -990,6 +983,13 @@ void NetWizard::_startHTTP() {
           if (!obj.containsKey("credentials")) {
             _nw.portal.state = NetWizardPortalState::SUCCESS;
           }
+        }
+      }
+
+      if (obj.containsKey("credentials") && obj["credentials"].is<JsonObject>()) {
+        JsonObject credentials = obj["credentials"];
+        if (!_parseCredentialsJson(credentials)) {
+          return _server->send(400, "text/plain", "Invalid request data");
         }
       }
 
