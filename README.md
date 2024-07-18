@@ -9,7 +9,7 @@
 </p>
 <br/>
 
-<b>NetWizard</b> is an easy-to-use yet powerful WiFi manager and captive portal library for wireless microcontrollers. Avoid the hassle of hard-coding WiFi credentials and let NetWizard take care of networking for your device!
+<b>NetWizard</b> is a user-friendly yet robust WiFi manager and captive portal library for wireless microcontrollers. Eliminate the trouble of hard-coding WiFi credentials by letting NetWizard handle the networking for your device!
 
 Additionally, NetWizard lets you create a custom configuration page of your choice which is shown at the time of setup. The possibilities are endless! 
 
