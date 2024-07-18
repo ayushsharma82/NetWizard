@@ -20,8 +20,20 @@ const int NetWizardParameter::getType() {
   return _type;
 }
 
-String NetWizardParameter::getValue() {
+const String& NetWizardParameter::getValue() {
   return _value;
+}
+
+const String& NetWizardParameter::getValueStr() {
+  return _value;
+}
+
+void NetWizardParameter::getValue(String& value) {
+  value = _value;
+}
+
+void NetWizardParameter::setValue(const String& value) {
+  _value = value;
 }
 
 void NetWizardParameter::setValue(const char* value) {

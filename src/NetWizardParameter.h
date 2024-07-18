@@ -26,7 +26,14 @@ class NetWizardParameter {
 
     const int getType();
 
-    String getValue();
+    [[deprecated("getValue has been replaced by getValueStr()")]]
+    const String& getValue();
+
+    const String& getValueStr();
+
+    void getValue(String& value);
+    
+    void setValue(const String& value);
     void setValue(const char* value);
 
     String getPlaceholder();
