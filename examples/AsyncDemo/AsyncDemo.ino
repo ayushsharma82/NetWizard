@@ -138,10 +138,14 @@ void setup(void) {
 
   NW.onConfig([&]() {
     Serial.println("NW onConfig Received");
-
-    // Print new parameter values
-    Serial.printf("Host: %s\n", nw_mqtt_host.getValue().c_str());
-    Serial.printf("Port: %s\n", nw_mqtt_port.getValue().c_str());
+    
+    String host, port;
+    // Get values
+    nw_mqtt_host.getValue(host);
+    nw_mqtt_port.getValue(port);
+    // Print values
+    Serial.printf("Host: %s\n", host.c_str());
+    Serial.printf("Port: %s\n", port.c_str());
     return true; // <-- return true to approve request, false to reject
   });
 
