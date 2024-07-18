@@ -26,8 +26,10 @@ class NetWizardParameter {
 
     const int getType();
 
-    [[deprecated("Replaced by void getValue(String& value)")]]
+    [[deprecated("getValue has been replaced by getValueStr()")]]
     const String& getValue();
+
+    const String& getValueStr();
 
     void getValue(String& value);
     

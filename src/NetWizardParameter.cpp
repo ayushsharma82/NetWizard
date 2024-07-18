@@ -24,6 +24,10 @@ const String& NetWizardParameter::getValue() {
   return _value;
 }
 
+const String& NetWizardParameter::getValueStr() {
+  return _value;
+}
+
 void NetWizardParameter::getValue(String& value) {
   value = _value;
 }
