@@ -16,14 +16,14 @@ NetWizard depends on the following dependencies to work properly. Please stricly
 
 ### For ESP32
 
-- [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32) >= **v3.0.2**
-- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.0.4**
+- [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32) >= **v3.0.3**
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.1.0**
 
 
 ### For RP2040 + W
 
 - [Arduino Pico Core](https://github.com/earlephilhower/arduino-pico) >= **v3.9.3**
-- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.0.4**
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.1.0**
 - [Preferences](https://github.com/vshymanskyy/Preferences) - **v2.1.0**
 
 ---
