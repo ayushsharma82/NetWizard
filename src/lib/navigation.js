@@ -10,6 +10,18 @@ export const navigation = [
     ],
   },
   {
+    title: 'Statistics (Pro)',
+    links: [
+      { title: 'Setup Statistics', href: '/docs/statistics/setup' },
+    ]
+  },
+  {
+    title: 'Links (Pro)',
+    links: [
+      { title: 'Setup Links', href: '/docs/links/setup' },
+    ]
+  },
+  {
     title: 'Parameters',
     links: [
       { title: 'Setup Parameters', href: '/docs/parameters/setup' },
@@ -20,18 +32,6 @@ export const navigation = [
       { title: 'Input', href: '/docs/parameters/types/input' },
       { title: 'Password Input (Pro)', href: '/docs/parameters/types/password-input' },
       { title: 'Toggle (Pro)', href: '/docs/parameters/types/toggle' },
-    ]
-  },
-  {
-    title: 'Statistics (Pro)',
-    links: [
-      { title: 'Setup Statistics', href: '/docs/statistics/setup' },
-    ]
-  },
-  {
-    title: 'Links (Pro)',
-    links: [
-      { title: 'Setup Links', href: '/docs/links/setup' },
     ]
   },
   {
