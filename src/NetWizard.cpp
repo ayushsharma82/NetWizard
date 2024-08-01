@@ -97,7 +97,7 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
     unsigned long startMillis = millis();
     unsigned long lastConnectMillis = startMillis;
 
-    while ((unsigned long)(millis() - startMillis) < NETWIZARD_CONNECT_TIMEOUT) {
+    while ((unsigned long)(millis() - startMillis) < _nw.sta.timeout) {
       yield();
       this->loop();
 
