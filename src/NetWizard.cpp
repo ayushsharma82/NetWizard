@@ -873,7 +873,9 @@ void NetWizard::_startHTTP() {
     }).setFilter(this->_onAPFilter);
 
     _server->onNotFound([](AsyncWebServerRequest *request){
-      return request->redirect("/");
+      AsyncWebServerResponse *response = request->beginResponse(302, "text/plain", "");
+      response->addHeader("Location", String("http://") + request->client()->localIP().toString());
+      request->send(response);
     });
 
   #else
