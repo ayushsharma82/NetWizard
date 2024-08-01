@@ -789,7 +789,7 @@ void NetWizard::_startHTTP() {
       }
     }).setFilter(this->_onAPFilter);
 
-    _save_handler = &_server->on("/netwizard/save", HTTP_POST, [&](AsyncWebServerRequest *request){
+    _save_handler = new AsyncCallbackJsonWebHandler("/netwizard/save", [&](AsyncWebServerRequest *request, JsonVariant &json) {
       if (_nw.portal.auth.enabled && !request->authenticate(_nw.portal.auth.username.c_str(), _nw.portal.auth.password.c_str())) {
         return request->requestAuthentication();
       }
@@ -797,21 +797,6 @@ void NetWizard::_startHTTP() {
       if (_nw.portal.state == NetWizardPortalState::WAITING_FOR_CONNECTION || _nw.portal.state == NetWizardPortalState::CONNECTING_WIFI) {
         return request->send(503, "text/plain", "Busy");
       }
-
-      // check if JSON object is available
-      if (request->hasArg("plain") == false) {
-        NETWIZARD_DEBUG_MSG("Invalid request data\n");
-        return request->send(400, "text/plain", "Request body not found");
-      }
-      
-      #if ARDUINOJSON_VERSION_MAJOR == 7
-        JsonDocument json;
-      #else
-        DynamicJsonDocument json(NETWIZARD_CONFIG_JSON_SIZE);
-      #endif
-
-      // parse JSON object
-      deserializeJson(json, request->arg("plain"));
 
       // check if JSON object is valid
       if (!json.is<JsonObject>() || json.size() == 0) {
@@ -841,7 +826,10 @@ void NetWizard::_startHTTP() {
       }
 
       return request->send(200, "text/plain", "OK");
-    }).setFilter(this->_onAPFilter);
+    });
+
+    _save_handler->setFilter(this->_onAPFilter);
+    _server->addHandler(_save_handler);
 
     _clear_handler = &_server->on("/netwizard/clear", HTTP_POST, [&](AsyncWebServerRequest *request){
       if (_nw.portal.auth.enabled && !request->authenticate(_nw.portal.auth.username.c_str(), _nw.portal.auth.password.c_str())) {

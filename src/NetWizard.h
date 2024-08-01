@@ -43,6 +43,7 @@ Upgrade to NetWizard Pro: https://netwizard.pro
   #include "ESP8266WiFi.h"
   #if NETWIZARD_USE_ASYNC_WEBSERVER == 1
     #include "ESPAsyncTCP.h"
+    #include "AsyncJson.h"
     #include "ESPAsyncWebServer.h"
     #define NETWIZARD_WEBSERVER AsyncWebServer
     #define NETWIZARD_REQ_HANDLER AsyncWebHandler
@@ -56,6 +57,7 @@ Upgrade to NetWizard Pro: https://netwizard.pro
   #include "WiFi.h"
   #if NETWIZARD_USE_ASYNC_WEBSERVER == 1
     #include "AsyncTCP.h"
+    #include "AsyncJson.h"
     #include "ESPAsyncWebServer.h"
     #define NETWIZARD_WEBSERVER AsyncWebServer
     #define NETWIZARD_REQ_HANDLER AsyncWebHandler
@@ -69,6 +71,7 @@ Upgrade to NetWizard Pro: https://netwizard.pro
   #include "WiFi.h"
   #if NETWIZARD_USE_ASYNC_WEBSERVER == 1
     #include "AsyncTCP_RP2040W.h"
+    #include "AsyncJson.h"
     #include "ESPAsyncWebServer.h"
     #define NETWIZARD_WEBSERVER AsyncWebServer
     #define NETWIZARD_REQ_HANDLER AsyncWebHandler
