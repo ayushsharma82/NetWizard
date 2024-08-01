@@ -844,7 +844,7 @@ void NetWizard::_startHTTP() {
       }
     }).setFilter(this->_onAPFilter);
 
-    _exit_handler = &_server->on("/netwizard/exit", HTTP_GET, [&](AsyncWebServerRequest *request){
+    _exit_handler = &_server->on("/netwizard/exit", HTTP_POST, [&](AsyncWebServerRequest *request){
       if(_nw.portal.auth.enabled && !request->authenticate(_nw.portal.auth.username.c_str(), _nw.portal.auth.password.c_str())){
         return request->requestAuthentication();
       }
@@ -854,8 +854,8 @@ void NetWizard::_startHTTP() {
       }
 
       if (!_nw.portal.exit.flag) {
-        _nw.portal.exit.flag = true;
         _nw.portal.exit.millis = millis();
+        _nw.portal.exit.flag = true;
       }
       return request->send(200, "text/plain", "OK");
     }).setFilter(this->_onAPFilter);
