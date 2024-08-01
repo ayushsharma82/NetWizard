@@ -13,19 +13,18 @@
 
   Works with following hardware:
   - ESP32
-  - RP2040 (with WiFi) (Example: Raspberry Pi Pico W)
-
+  - RP2040+W (Example: Raspberry Pi Pico W)
 
   Important note for RP2040 users:
   - RP2040 requires LittleFS partition for saving credentials.
     Without LittleFS partition, the app will fail to persist any data.
     Make sure to select Tools > Flash Size > "2MB (Sketch 1MB, FS 1MB)" option.
-  - If using bare RP2040, it requires WiFi module like Pico W for NetWizard to work.
+  - Doesn't work with bare RP2040, it requires WiFi module/chip (network co-processor)
+    like in Pico W for NetWizard to work.
 
   -------------------------------
 
   Upgrade to NetWizard Pro: https://netwizard.pro
-
 */
 
 #include <WebServer.h>

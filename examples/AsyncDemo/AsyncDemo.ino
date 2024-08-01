@@ -13,23 +13,22 @@
 
   Works with following hardware:
   - ESP32
-  - RP2040 (with WiFi) (Example: Raspberry Pi Pico W)
+  - RP2040+W (Example: Raspberry Pi Pico W)
 
   Important note for RP2040 users:
   - RP2040 requires LittleFS partition for saving credentials.
     Without LittleFS partition, the app will fail to persist any data.
     Make sure to select Tools > Flash Size > "2MB (Sketch 1MB, FS 1MB)" option.
-  - Doesn't works with bare RP2040, it requires WiFi module/chip (network co-processor)
+  - Doesn't work with bare RP2040, it requires WiFi module/chip (network co-processor)
     like in Pico W for NetWizard to work.
 
-  NOTE: Asnyc mode required AsyncWebServer dependency and
+  NOTE: Async mode requires ESPAsyncWebServer dependency and
   please make sure to enable async flag in NetWizard.h as per the docs:
   https://docs.netwizard.pro/async-mode
 
   -------------------------------
 
   Upgrade to NetWizard Pro: https://netwizard.pro
-
 */
 
 #if defined(ESP32)
@@ -50,7 +49,7 @@ NetWizard NW(&server);
 NetWizardParameter nw_header(&NW, NW_HEADER, "MQTT");
 NetWizardParameter nw_divider1(&NW, NW_DIVIDER);
 NetWizardParameter nw_mqtt_host(&NW, NW_INPUT, "Host", "", "mqtt.example.com");
-NetWizardParameter nw_mqtt_port(&NW, NW_INPUT, "Port", "1883");
+NetWizardParameter nw_mqtt_port(&NW, NW_INPUT, "Port", "", "1883");
 
 void setup(void) {
   delay(3000);

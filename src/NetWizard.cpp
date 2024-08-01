@@ -97,7 +97,7 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
     unsigned long startMillis = millis();
     unsigned long lastConnectMillis = startMillis;
 
-    while ((unsigned long)(millis() - startMillis) < NETWIZARD_CONNECT_TIMEOUT) {
+    while ((unsigned long)(millis() - startMillis) < _nw.sta.timeout) {
       yield();
       this->loop();
 
@@ -351,8 +351,8 @@ void NetWizard::loop() {
     }
   }
 
-  // If exit flag is set and more than 30 seconds have passed, stop portal
-  if (_nw.portal.exit.flag && ((unsigned long)(millis() - _nw.portal.exit.millis) > 30000)) {
+  // If exit flag is set and more than NETWIZARD_EXIT_TIMEOUT milliseconds have passed, stop portal
+  if (_nw.portal.exit.flag && ((unsigned long)(millis() - _nw.portal.exit.millis) > NETWIZARD_EXIT_TIMEOUT)) {
     _stopPortal();
     _nw.portal.exit.flag = false;
     _nw.portal.exit.millis = 0;
@@ -789,7 +789,7 @@ void NetWizard::_startHTTP() {
       }
     }).setFilter(this->_onAPFilter);
 
-    _save_handler = &_server->on("/netwizard/save", HTTP_POST, [&](AsyncWebServerRequest *request){
+    _save_handler = new AsyncCallbackJsonWebHandler("/netwizard/save", [&](AsyncWebServerRequest *request, JsonVariant &json) {
       if (_nw.portal.auth.enabled && !request->authenticate(_nw.portal.auth.username.c_str(), _nw.portal.auth.password.c_str())) {
         return request->requestAuthentication();
       }
@@ -797,21 +797,6 @@ void NetWizard::_startHTTP() {
       if (_nw.portal.state == NetWizardPortalState::WAITING_FOR_CONNECTION || _nw.portal.state == NetWizardPortalState::CONNECTING_WIFI) {
         return request->send(503, "text/plain", "Busy");
       }
-
-      // check if JSON object is available
-      if (request->hasArg("plain") == false) {
-        NETWIZARD_DEBUG_MSG("Invalid request data\n");
-        return request->send(400, "text/plain", "Request body not found");
-      }
-      
-      #if ARDUINOJSON_VERSION_MAJOR == 7
-        JsonDocument json;
-      #else
-        DynamicJsonDocument json(NETWIZARD_CONFIG_JSON_SIZE);
-      #endif
-
-      // parse JSON object
-      deserializeJson(json, request->arg("plain"));
 
       // check if JSON object is valid
       if (!json.is<JsonObject>() || json.size() == 0) {
@@ -841,7 +826,10 @@ void NetWizard::_startHTTP() {
       }
 
       return request->send(200, "text/plain", "OK");
-    }).setFilter(this->_onAPFilter);
+    });
+
+    _save_handler->setFilter(this->_onAPFilter);
+    _server->addHandler(_save_handler);
 
     _clear_handler = &_server->on("/netwizard/clear", HTTP_POST, [&](AsyncWebServerRequest *request){
       if (_nw.portal.auth.enabled && !request->authenticate(_nw.portal.auth.username.c_str(), _nw.portal.auth.password.c_str())) {
@@ -856,7 +844,7 @@ void NetWizard::_startHTTP() {
       }
     }).setFilter(this->_onAPFilter);
 
-    _exit_handler = &_server->on("/netwizard/exit", HTTP_GET, [&](AsyncWebServerRequest *request){
+    _exit_handler = &_server->on("/netwizard/exit", HTTP_POST, [&](AsyncWebServerRequest *request){
       if(_nw.portal.auth.enabled && !request->authenticate(_nw.portal.auth.username.c_str(), _nw.portal.auth.password.c_str())){
         return request->requestAuthentication();
       }
@@ -866,14 +854,16 @@ void NetWizard::_startHTTP() {
       }
 
       if (!_nw.portal.exit.flag) {
-        _nw.portal.exit.flag = true;
         _nw.portal.exit.millis = millis();
+        _nw.portal.exit.flag = true;
       }
       return request->send(200, "text/plain", "OK");
     }).setFilter(this->_onAPFilter);
 
     _server->onNotFound([](AsyncWebServerRequest *request){
-      return request->redirect("/");
+      AsyncWebServerResponse *response = request->beginResponse(302, "text/plain", "");
+      response->addHeader("Location", String("http://") + request->client()->localIP().toString());
+      request->send(response);
     });
 
   #else
