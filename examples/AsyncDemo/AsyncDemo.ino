@@ -49,7 +49,7 @@ NetWizard NW(&server);
 NetWizardParameter nw_header(&NW, NW_HEADER, "MQTT");
 NetWizardParameter nw_divider1(&NW, NW_DIVIDER);
 NetWizardParameter nw_mqtt_host(&NW, NW_INPUT, "Host", "", "mqtt.example.com");
-NetWizardParameter nw_mqtt_port(&NW, NW_INPUT, "Port", "1883");
+NetWizardParameter nw_mqtt_port(&NW, NW_INPUT, "Port", "", "1883");
 
 void setup(void) {
   delay(3000);
