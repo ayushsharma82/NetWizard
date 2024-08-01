@@ -352,7 +352,7 @@ void NetWizard::loop() {
   }
 
   // If exit flag is set and more than 30 seconds have passed, stop portal
-  if (_nw.portal.exit.flag && ((unsigned long)(millis() - _nw.portal.exit.millis) > 30000)) {
+  if (_nw.portal.exit.flag && ((unsigned long)(millis() - _nw.portal.exit.millis) > NETWIZARD_EXIT_TIMEOUT)) {
     _stopPortal();
     _nw.portal.exit.flag = false;
     _nw.portal.exit.millis = 0;
