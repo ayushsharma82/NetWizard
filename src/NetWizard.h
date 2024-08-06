@@ -111,7 +111,7 @@ enum class NetWizardPortalState {
   TIMEOUT
 };
 
-typedef enum NetWizardEncryptionType {
+enum class NetWizardEncryptionType {
   OPEN = 0,
   WEP,
   WPA_PSK,
