@@ -480,11 +480,11 @@ void NetWizard::_generateStatusJson(String& str) {
   #else
     DynamicJsonDocument json(NETWIZARD_STATUS_JSON_SIZE);
   #endif
-  json["conn"]["status"] = _nw.status;
+  json["conn"]["status"] = (uint8_t)_nw.status;
   json["conn"]["ssid"] = _nw.sta.ssid.c_str();
   json["conn"]["mac"] = WiFi.macAddress();
   json["conn"]["ip"] = WiFi.localIP().toString();
-  json["portal"]["state"] = _nw.portal.state;
+  json["portal"]["state"] = (uint8_t)_nw.portal.state;
 
   // Serialize JSON to string
   serializeJson(json, str);
@@ -574,76 +574,78 @@ void NetWizard::_generateScanJson(String& str) {
     //   MAX,
     // }
 
+    NetWizardEncryptionType enc = NetWizardEncryptionType::OPEN;
     #if defined(ESP8266) || defined(ESP32)
       switch (WiFi.encryptionType(i)) {
         case WIFI_AUTH_OPEN:
-          obj["e"] = NetWizardEncryptionType::OPEN;
+          enc = NetWizardEncryptionType::OPEN;
           break;
         case WIFI_AUTH_WEP:
-          obj["e"] = NetWizardEncryptionType::WEP;
+          enc = NetWizardEncryptionType::WEP;
           break;
         case WIFI_AUTH_WPA_PSK:
-          obj["e"] = NetWizardEncryptionType::WPA_PSK;
+          enc = NetWizardEncryptionType::WPA_PSK;
           break;
         case WIFI_AUTH_WPA2_PSK:
-          obj["e"] = NetWizardEncryptionType::WPA2_PSK;
+          enc = NetWizardEncryptionType::WPA2_PSK;
           break;
         case WIFI_AUTH_WPA_WPA2_PSK:
-          obj["e"] = NetWizardEncryptionType::WPA_WPA2_PSK;
+          enc = NetWizardEncryptionType::WPA_WPA2_PSK;
           break;
         // case WIFI_AUTH_ENTERPRISE:
-        //   obj["e"] = NetWizardEncryptionType::ENTERPRISE;
+        //   enc = NetWizardEncryptionType::ENTERPRISE;
         //   break;
         case WIFI_AUTH_WPA2_ENTERPRISE:
-          obj["e"] = NetWizardEncryptionType::WPA2_ENTERPRISE;
+          enc = NetWizardEncryptionType::WPA2_ENTERPRISE;
           break;
         case WIFI_AUTH_WPA3_PSK:
-          obj["e"] = NetWizardEncryptionType::WPA3_PSK;
+          enc = NetWizardEncryptionType::WPA3_PSK;
           break;
         case WIFI_AUTH_WPA2_WPA3_PSK:
-          obj["e"] = NetWizardEncryptionType::WPA2_WPA3_PSK;
+          enc = NetWizardEncryptionType::WPA2_WPA3_PSK;
           break;
         case WIFI_AUTH_WAPI_PSK:
-          obj["e"] = NetWizardEncryptionType::WAPI_PSK;
+          enc = NetWizardEncryptionType::WAPI_PSK;
           break;
         case WIFI_AUTH_OWE:
-          obj["e"] = NetWizardEncryptionType::OWE;
+          enc = NetWizardEncryptionType::OWE;
           break;
         case WIFI_AUTH_WPA3_ENT_192:
-          obj["e"] = NetWizardEncryptionType::WPA3_ENT_192;
+          enc = NetWizardEncryptionType::WPA3_ENT_192;
           break;
         // case WIFI_AUTH_WPA3_EXT_PSK:
-        //   obj["e"] = NetWizardEncryptionType::WPA3_EXT_PSK;
+        //   enc = NetWizardEncryptionType::WPA3_EXT_PSK;
         //   break;
         // case WIFI_AUTH_WPA3_EXT_PSK_MIXED_MODE:
-        //   obj["e"] = NetWizardEncryptionType::WPA3_EXT_PSK_MIXED_MODE;
+        //   enc = NetWizardEncryptionType::WPA3_EXT_PSK_MIXED_MODE;
         //   break;
         case WIFI_AUTH_MAX:
-          obj["e"] = NetWizardEncryptionType::MAX;
+          enc = NetWizardEncryptionType::MAX;
           break;
         default:
-          obj["e"] = NetWizardEncryptionType::UNKNOWN;
+          enc = NetWizardEncryptionType::UNKNOWN;
           break;
       }
     #elif defined(TARGET_RP2040)
       switch (WiFi.encryptionType(i)) {
         case ENC_TYPE_NONE:
-          obj["e"] = NetWizardEncryptionType::OPEN;
+          enc = NetWizardEncryptionType::OPEN;
           break;
         case ENC_TYPE_TKIP:
-          obj["e"] = NetWizardEncryptionType::WPA_PSK;
+          enc = NetWizardEncryptionType::WPA_PSK;
           break;
         case ENC_TYPE_CCMP:
-          obj["e"] = NetWizardEncryptionType::WPA2_PSK;
+          enc = NetWizardEncryptionType::WPA2_PSK;
           break;
         case ENC_TYPE_AUTO:
-          obj["e"] = NetWizardEncryptionType::WPA_WPA2_PSK;
+          enc = NetWizardEncryptionType::WPA_WPA2_PSK;
           break;
         default:
-          obj["e"] = NetWizardEncryptionType::UNKNOWN;
+          enc = NetWizardEncryptionType::UNKNOWN;
           break;
       }
     #endif
+    obj["e"] = (uint8_t)enc;
   }
   serializeJson(json, str);
   json.clear();

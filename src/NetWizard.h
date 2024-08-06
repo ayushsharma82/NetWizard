@@ -93,25 +93,25 @@ typedef enum {
   BLOCKING,
 } NetWizardStrategy;
 
-typedef enum {
+enum class NetWizardConnectionStatus {
   DISCONNECTED = 0,
   CONNECTING,
   CONNECTED,
   CONNECTION_FAILED,
   CONNECTION_LOST,
   NOT_FOUND,
-} NetWizardConnectionStatus;
+};
 
-typedef enum {
+enum class NetWizardPortalState {
   IDLE = 0,
   CONNECTING_WIFI,
   WAITING_FOR_CONNECTION,
   SUCCESS,
   FAILED,
   TIMEOUT
-} NetWizardPortalState;
+};
 
-typedef enum {
+enum class NetWizardEncryptionType {
   OPEN = 0,
   WEP,
   WPA_PSK,
@@ -128,7 +128,7 @@ typedef enum {
   WPA3_EXT_PSK_MIXED_MODE,
   MAX,
   UNKNOWN
-} NetWizardEncryptionType;
+};
 
 class NetWizardParameter;
 
