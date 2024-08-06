@@ -574,7 +574,7 @@ void NetWizard::_generateScanJson(String& str) {
     //   MAX,
     // }
 
-    NetWizardEncryptionType enc = OPEN;
+    NetWizardEncryptionType enc = NetWizardEncryptionType::OPEN;
     #if defined(ESP8266) || defined(ESP32)
       switch (WiFi.encryptionType(i)) {
         case WIFI_AUTH_OPEN:
