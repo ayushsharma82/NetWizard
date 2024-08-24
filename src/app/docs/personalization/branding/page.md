@@ -31,7 +31,7 @@ We'll go through the process below:
 
 ### Step 2: Setting custom logo in sketch
 
-Now once your custom logo has been prepared, let's set it in your ESP-DASH Pro library:
+Now once your custom logo has been prepared, let's set it in your NetWizard Pro library:
 
 1. Open `logo.h` which can be found inside src folder of your library.
 2. Set `NETWIZARD_LOGO_MIME` to your image file type. To find your file's mime type, use this utility: [MIME File Type Checker](https://www.htmlstrip.com/mime-file-type-checker)
