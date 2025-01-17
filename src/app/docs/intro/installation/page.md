@@ -16,14 +16,14 @@ NetWizard depends on the following dependencies to work properly. Please stricly
 
 ### For ESP32
 
-- [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32) >= **v3.0.3**
-- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.1.0**
+- [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32) >= **v3.1.0**
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.3.0**
 
 
 ### For RP2040 + W
 
-- [Arduino Pico Core](https://github.com/earlephilhower/arduino-pico) >= **v3.9.3**
-- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.1.0**
+- [Arduino Pico Core](https://github.com/earlephilhower/arduino-pico) >= **v4.4.1**
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.3.0**
 - [Preferences](https://github.com/vshymanskyy/Preferences) - **v2.1.0**
 
 ---
@@ -51,13 +51,19 @@ Go to Sketch > Include Library > Library Manager > Search for "NetWizard" > Inst
 
 ## For PlatformIO
 
-### Modifications in PlatformIO.ini
+### Modifications in platformio.ini
 
 As NetWizard supports multiple platforms, before you install/import NetWizard in your PlatformIO projects, it's neccessary to add these following lines in your `platformio.ini` file for your project to compile successfully:
 
 ```ini
-lib_compat_mode = soft
-lib_ldf_mode = chain
+lib_compat_mode = strict
+lib_ldf_mode = deep # This line may or may not be neccessary depending on your project
+```
+
+**For ESP32:** Switch to the `pioarduino/platform-espressif32` platform inside your platformio.ini file so that you have the latest Arduino ESP32 core. *Currently, official releases from PIO team of ESP32 platform is stuck on Arduino Core v2 which doesn't have the required features for NetWizard to compile.*
+
+```ini
+platform = https://github.com/pioarduino/platform-espressif32/releases/download/53.03.10/platform-espressif32.zip
 ```
 
 ### 1. Import through PlatformIO

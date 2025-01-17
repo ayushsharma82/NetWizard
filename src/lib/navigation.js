@@ -32,6 +32,7 @@ export const navigation = [
       { title: 'Input', href: '/docs/parameters/types/input' },
       { title: 'Password Input (Pro)', href: '/docs/parameters/types/password-input' },
       { title: 'Toggle (Pro)', href: '/docs/parameters/types/toggle' },
+      { title: 'Textarea (Pro)', href: '/docs/parameters/types/textarea' },
     ]
   },
   {

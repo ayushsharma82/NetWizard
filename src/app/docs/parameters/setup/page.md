@@ -35,6 +35,7 @@ Parameters can be of following types, please refer to each type for more details
 - [Input](/docs/parameters/types/input)
 - [Password Input](/docs/parameters/types/password-input)
 - [Toggle](/docs/parameters/types/toggle)
+- [Textarea](/docs/parameters/types/textarea)
 
 ## API Reference
 
