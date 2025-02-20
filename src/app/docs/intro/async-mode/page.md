@@ -13,7 +13,7 @@ One of the features of NetWizard is the async mode, which provides asynchronous 
 ## Dependencies
 
 {% callout title="Important" %}
-W.E.F v1.2.0, we have switched our dependency from `mathieucarbou/ESPAsyncWebServer` to `ESP32Async/ESPAsyncWebServer`. If you are using the deprecated fork from `mathieucarbou`, then it's advisable to delete it from your system and install the new async mode dependencies from `ESP32Async` organization.
+From v1.2.0 and onwards, we have switched our dependency from `mathieucarbou/ESPAsyncWebServer` to `ESP32Async/ESPAsyncWebServer`. If you are using the deprecated fork from `mathieucarbou`, then it's advisable to delete it from your system and install the new async mode dependencies from `ESP32Async` organization.
 
 This was a joint decision among multiple core collaborators to form the `ESP32Async` organization and keep a single maintained version. All the changes and improvements from mathieu's fork of `ESPAsyncWebServer` were  merged in `ESP32Async/ESPAsyncWebServer`.
 {% /callout %}
