@@ -20,13 +20,17 @@ NetWizard depends on the following dependencies to work properly. Please stricly
 - [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.3.0**
 
 
-### For RP2040 + W (Example: RaspberryPi Pico W)
+### For RP2040 + W 
+
+Example: RaspberryPi Pico W
 
 - [Arduino Pico Core](https://github.com/earlephilhower/arduino-pico) - **v4.4.3**
 - [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.3.0**
 - [Preferences](https://github.com/vshymanskyy/Preferences) - **v2.1.0**
 
-### For RP2350 + W (Example: RaspberryPi Pico 2W)
+### For RP2350 + W
+
+Example: RaspberryPi Pico 2W
 
 - [Arduino Pico Core](https://github.com/earlephilhower/arduino-pico) - **v4.4.3**
 - [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.3.0**
