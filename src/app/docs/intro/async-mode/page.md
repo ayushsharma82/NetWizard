@@ -18,7 +18,7 @@ W.E.F v1.2.0, we have switched our dependency from `mathieucarbou/ESPAsyncWebSer
 This was a joint decision among multiple core collaborators to form the `ESP32Async` organization and keep a single maintained version. All the changes and improvements from mathieu's fork of `ESPAsyncWebServer` were  merged in `ESP32Async/ESPAsyncWebServer`.
 {% /callout %}
 
-Async mode depends on the following libraries. Please make sure you have installed these specific versions for a crash-free experience. *We use fork of AsyncWebServer from [mathieucarbou](https://github.com/mathieucarbou) which are stable and maintained regularly.*
+Async mode depends on the following libraries. Please make sure you have installed these specific versions for a crash-free experience.
 
 <!-- ### For ESP8266
 
