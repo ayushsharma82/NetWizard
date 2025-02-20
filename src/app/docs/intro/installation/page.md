@@ -63,13 +63,13 @@ As NetWizard supports multiple platforms, before you install/import NetWizard in
 
 ```ini
 lib_compat_mode = strict
-lib_ldf_mode = deep # This line may or may not be neccessary depending on your project
+lib_ldf_mode = deep   ; This line may or may not be neccessary depending on your project
 ```
 
 **For ESP32:** Switch to the `pioarduino/platform-espressif32` platform inside your platformio.ini file so that you have the latest Arduino ESP32 core. *Currently, official releases from PIO team of ESP32 platform is stuck on Arduino Core v2 which doesn't have the required features for NetWizard to compile.*
 
 ```ini
-platform = https://github.com/pioarduino/platform-espressif32/releases/download/53.03.10/platform-espressif32.zip
+platform = https://github.com/pioarduino/platform-espressif32/releases/download/53.03.13/platform-espressif32.zip
 ```
 
 ### 1. Import through PlatformIO
