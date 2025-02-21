@@ -13,7 +13,7 @@ One of the features of NetWizard is the async mode, which provides asynchronous 
 ## Dependencies
 
 {% callout title="Important" %}
-From v1.2.0 and onwards, we have switched our dependency from `mathieucarbou/ESPAsyncWebServer` to `ESP32Async/ESPAsyncWebServer`. If you are using the deprecated fork from `mathieucarbou`, then it's advisable to delete it from your system and install the new async mode dependencies from `ESP32Async` organization.
+From v1.2.0 and onwards, we have switched our dependency to `ESP32Async/ESPAsyncWebServer`. If you are using the deprecated fork from `mathieucarbou` or `me-no-dev`, then it's advisable to delete it from your PC and install the new async mode dependencies from `ESP32Async` organization.
 
 This was a joint decision among multiple core collaborators to form the `ESP32Async` organization and keep a single maintained version. All the changes and improvements from mathieu's fork of `ESPAsyncWebServer` were  merged in `ESP32Async/ESPAsyncWebServer`.
 {% /callout %}
@@ -27,13 +27,18 @@ Async mode depends on the following libraries. Please make sure you have install
 
 ### For ESP32
 
-- (ESP32Async) [AsyncTCP](https://github.com/ESP32Async/AsyncTCP#v3.3.5) @ **v3.3.5**
-- (ESP32Async) [ESPAsyncWebServer](https://github.com/ESP32Async/ESPAsyncWebServer#v3.7.1) - **v3.7.1**
+- (ESP32Async) [AsyncTCP](https://github.com/ESP32Async/AsyncTCP#v3.3.5) >= **v3.3.5**
+- (ESP32Async) [ESPAsyncWebServer](https://github.com/ESP32Async/ESPAsyncWebServer#v3.7.1) >= **v3.7.1**
 
-### For RP2040+W or RP2350+W
+### For RP2040+W
 
-- (ayushsharma82) [RPAsyncTCP](https://github.com/ayushsharma82/RPAsyncTCP#v1.3.0) @ **v1.3.0**
-- (ESP32Async) [ESPAsyncWebServer](https://github.com/ESP32Async/ESPAsyncWebServer#v3.7.1) - **v3.7.1**
+- (ayushsharma82) [RPAsyncTCP](https://github.com/ayushsharma82/RPAsyncTCP#v1.3.0) >= **v1.3.0**
+- (ESP32Async) [ESPAsyncWebServer](https://github.com/ESP32Async/ESPAsyncWebServer#v3.7.1) >= **v3.7.1**
+
+### For RP2350+W
+
+- (ayushsharma82) [RPAsyncTCP](https://github.com/ayushsharma82/RPAsyncTCP#v1.3.0) >= **v1.3.0**
+- (ESP32Async) [ESPAsyncWebServer](https://github.com/ESP32Async/ESPAsyncWebServer#v3.7.1) >= **v3.7.1**
 
 ---
 
