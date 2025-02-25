@@ -22,7 +22,7 @@ The configuration page will be hidden automatically when there are no parameters
 All the parameters are added sequentially to the config page and you can add as many parameters as you want. This allows complete control over the layout of the configuration page.
 
 {% callout title="Note on Persistence" %}
-Parameters are **not** persistent and values will be lost when the device is reset, therefore it's recommended to process or save them as per your application upon receiving [`onConfig`](/docs/parameters/on-config) callback.
+Parameters are not persistent and values will be lost when the device is reset, therefore it's recommended to process or save them as per your application upon receiving [`onConfig`](/docs/parameters/on-config) callback.
 {% /callout %}
 
 ## Parameter Types
