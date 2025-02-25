@@ -25,6 +25,7 @@ export const navigation = [
     title: 'Parameters',
     links: [
       { title: 'Setup Parameters', href: '/docs/parameters/setup' },
+      { title: 'setRequired', href: '/docs/parameters/set-required' },
       { title: 'onConfig Callback', href: '/docs/parameters/on-config' },
       { title: 'Header', href: '/docs/parameters/types/header' },
       { title: 'Divider', href: '/docs/parameters/types/divider' },
