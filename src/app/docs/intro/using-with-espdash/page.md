@@ -8,14 +8,14 @@ nextjs:
 
 ## What is ESP-DASH?
 
-ESP-DASH is a on-device dashboard library for wireless microcontrollers through which you can setup your very own web dashboard to visualize or control things in your firmware.
+ESP-DASH is a on-device dashboard library for wireless microcontrollers through which you can setup your very own web dashboard to visualize or control things in your firmware. Know more about ESP-DASH: [click here](https://github.com/ayushsharma82/ESP-DASH).
 
 ## Sample Code
 
 Using NetWizard along with ESP-DASH can be easily done as illustrated in this sample code. You can alsp skip to bottom to see what changes were applied.
 
 {% callout title="Important" %}
-As ESP-DASH works with AsyncWebServer library please make sure you have enabled async mode of NetWizard before compiling your firmware. Ref: [Async Mode](/intro/async-mode)
+As ESP-DASH works with AsyncWebServer library please make sure you have enabled async mode of NetWizard before compiling your firmware. Ref: [Async Mode](/docs/intro/async-mode)
 {% /callout %}
 
 ```cpp
@@ -171,7 +171,7 @@ void setup(void) {
   });
 
   // Internal rewrite for ESP-DASH dashboard
-  server.rewrite("/", "/dashboard").setFilter(ON_STA_FILTER);
+  server.rewrite("/", "/dashboard").setFilter(ON_STA_FILTER);    // <---  Add this server.rewrite so that we display ESP-DASH at "/" on STA connections
 
   // Start WebServer
   server.begin();
@@ -186,7 +186,7 @@ void loop(void) {
 ## So what was the catch?
 
 1. We had to initialze ESP-DASH at "/dashboard" URL so that it doesn't clash with the NetWizard's portal in AP mode.
-2. Create a internal `rewrite` inside `setup()` block for STA connections, so that we display the dashboard on "/" when the device is being accessed on LAN.
+2. Create a `server.rewrite` inside `setup()` block for STA connections, so that we display the dashboard on "/" when your device is being accessed by user on LAN.
 
 
-Once these changes were applied, both libraries work with eachother without any problems!
+Once these changes were applied, both libraries work with each other without any problems!
