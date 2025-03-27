@@ -7,6 +7,7 @@ export const navigation = [
       { title: 'Example', href: '/docs/intro/example' },
       { title: 'Async Mode', href: '/docs/intro/async-mode' },
       { title: 'Integration into Existing Code', href: '/docs/intro/integration-into-existing-code' },
+      { title: 'Using with ESP-DASH', href: '/docs/intro/using-with-espdash' },
     ],
   },
   {
