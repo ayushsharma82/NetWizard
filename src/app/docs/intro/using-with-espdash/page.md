@@ -8,14 +8,14 @@ nextjs:
 
 ## What is ESP-DASH?
 
-ESP-DASH is a on-device dashboard library for wireless microcontrollers through which you can setup your very own web dashboard to visualize or control things in your firmware. Know more about ESP-DASH: [click here](https://github.com/ayushsharma82/ESP-DASH).
+ESP-DASH is a on-device dashboard library for wireless microcontrollers through which you can setup your very own web dashboard to visualize or control things in your firmware. Know more about ESP-DASH - [click here](https://github.com/ayushsharma82/ESP-DASH).
 
 ## Sample Code
 
-Using NetWizard along with ESP-DASH can be easily done as illustrated in this sample code. You can alsp skip to bottom to see what changes were applied.
+Using NetWizard along with ESP-DASH can be easily done as illustrated in this sample code. You can also skip to bottom of the page to see what changes were applied.
 
-{% callout title="Important" %}
-Please make sure you have enabled async mode of NetWizard before compiling your firmware. ESP-DASH depends on AsyncWebServer therefore we have to use it with NetWizard as well. Ref: [Async Mode](/docs/intro/async-mode)
+{% callout title="Enable Async Mode" %}
+Please make sure you have enabled async mode of NetWizard before compiling your firmware. Ref: [Async Mode](/docs/intro/async-mode)
 {% /callout %}
 
 ```cpp
