@@ -15,7 +15,7 @@ ESP-DASH is a on-device dashboard library for wireless microcontrollers through 
 Using NetWizard along with ESP-DASH can be easily done as illustrated in this sample code. You can alsp skip to bottom to see what changes were applied.
 
 {% callout title="Important" %}
-As ESP-DASH works with AsyncWebServer library please make sure you have enabled async mode of NetWizard before compiling your firmware. Ref: [Async Mode](/docs/intro/async-mode)
+Please make sure you have enabled async mode of NetWizard before compiling your firmware. ESP-DASH depends on AsyncWebServer therefore we have to use it with NetWizard as well. Ref: [Async Mode](/docs/intro/async-mode)
 {% /callout %}
 
 ```cpp
