@@ -52,14 +52,14 @@ NetWizardParameter nw_mqtt_host(&NW, NW_INPUT, "Host", "", "mqtt.example.com");
 NetWizardParameter nw_mqtt_port(&NW, NW_INPUT, "Port", "", "1883");
 
 // Initialize ESP-DASH
-ESPDash dashboard(&server, "/dashboard", true);    // <--- We initialize ESP-DASH at "/dashboard" URL so that NetWizard logic is not distrupted
+ESPDash dashboard(server, "/dashboard", true);    // <--- We initialize ESP-DASH at "/dashboard" URL so that NetWizard logic is not distrupted
 
 /* 
   Dashboard Cards 
   Format - (Dashboard Instance, Card Type, Card Name, Card Symbol(optional) )
 */
-Card temperature(&dashboard, TEMPERATURE_CARD, "Temperature", "°C");
-Card humidity(&dashboard, HUMIDITY_CARD, "Humidity", "%");
+dash::TemperatureCard<int> tempInt(dashboard, "Temperature", "°C");
+dash::HumidityCard<int> humInt(dashboard, "Humidity", "%");
 
 
 void setup(void) {
@@ -166,8 +166,8 @@ void setup(void) {
   }
 
   // Demo Route
-  server.on("/demo", HTTP_GET, []() {
-    server.send(200, "text/plain", "Hi! This is NetWizard Demo.");
+  server.on("/demo", HTTP_GET, [](AsyncWebServerRequest* request) {
+    request->send(200, "text/plain", "Hi! This is NetWizard Demo.");
   });
 
   // Internal rewrite for ESP-DASH dashboard
