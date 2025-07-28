@@ -54,10 +54,7 @@ NetWizardParameter nw_mqtt_port(&NW, NW_INPUT, "Port", "", "1883");
 // Initialize ESP-DASH
 ESPDash dashboard(server, "/dashboard", true);    // <--- We initialize ESP-DASH at "/dashboard" URL so that NetWizard logic is not distrupted
 
-/* 
-  Dashboard Cards 
-  Format - (Dashboard Instance, Card Type, Card Name, Card Symbol(optional) )
-*/
+// Dashboard Cards
 dash::TemperatureCard<int> tempInt(dashboard, "Temperature", "°C");
 dash::HumidityCard<int> humInt(dashboard, "Humidity", "%");
 
