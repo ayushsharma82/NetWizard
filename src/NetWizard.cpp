@@ -340,6 +340,10 @@ void NetWizard::loop() {
         NETWIZARD_DEBUG_MSG("Connecting to temporary credentials\n");
         NETWIZARD_DEBUG_MSG("SSID: " + _nw.portal.sta.ssid + " \n");
         NETWIZARD_DEBUG_MSG("Password: " + _nw.portal.sta.password + " \n");
+        // Ensure WiFi mode is AP+STA before connecting
+        if (WiFi.getMode() != WIFI_AP_STA) {
+          WiFi.mode(WIFI_AP_STA);
+        }
         // Connect to temporary credentials
         WiFi.persistent(false);
         _connect(_nw.portal.sta.ssid.c_str(), _nw.portal.sta.password.c_str(), false);
@@ -374,6 +378,7 @@ void NetWizard::loop() {
       case NetWizardPortalState::SUCCESS:
       case NetWizardPortalState::FAILED:
       case NetWizardPortalState::TIMEOUT:
+      default:
         break;
     }
   }
