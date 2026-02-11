@@ -807,17 +807,17 @@ void NetWizard::_startHTTP() {
 
       // return scan data
       int16_t n = WiFi.scanComplete();
-      #if defined(ESP8266) || defined(ESP32)
-        if (n == WIFI_SCAN_RUNNING) {
-          return request->send(202, "text/plain", "");
-        } else if (n == WIFI_SCAN_FAILED) {
-          // restart scan
-          _restartScan();
-          return request->send(202, "text/plain", "");
-      #elif defined(TARGET_PICO)
-        if (!n) {
-          return request->send(202, "text/plain", "");
-      #endif
+#if defined(ESP8266) || defined(ESP32)
+      if (n == WIFI_SCAN_RUNNING) {
+        return request->send(202, "text/plain", "");
+      } else if (n == WIFI_SCAN_FAILED) {
+        // restart scan
+        _restartScan();
+        return request->send(202, "text/plain", "");
+#elif defined(TARGET_PICO)
+      if (n == -1) {
+        return request->send(202, "text/plain", "");
+#endif
       } else {
         // serialize scan data
         String output;
