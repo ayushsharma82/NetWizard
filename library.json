@@ -2,13 +2,11 @@
   "name": "NetWizard",
   "keywords": "NetWizard, wifi, manager, esp, captive, portal",
   "description": "An easy-to-use yet powerful WiFi manager and captive portal library for wireless microcontrollers.",
-  "repository":
-  {
+  "repository": {
     "type": "git",
     "url": "https://github.com/ayushsharma82/NetWizard.git"
   },
-  "authors":
-  [
+  "authors": [
     {
       "name": "Ayush Sharma",
       "email": "asrocks5@gmail.com",
@@ -19,23 +17,23 @@
     {
       "owner": "bblanchon",
       "name": "ArduinoJson",
-      "version": "^7.3.1",
+      "version": "^7.4.2",
       "platforms": ["espressif8266", "espressif32", "raspberrypi"]
     },
     {
       "owner": "ESP32Async",
       "name": "ESPAsyncWebServer",
-      "version": "^3.7.2",
+      "version": "^3.9.6",
       "platforms": ["espressif8266", "espressif32", "raspberrypi"]
     },
     {
       "owner": "vshymanskyy",
       "name": "Preferences",
-      "version": "^2.1.0",
+      "version": "^2.2.2",
       "platforms": ["espressif8266", "raspberrypi"]
     }
   ],
-  "version": "1.2.1",
+  "version": "1.2.2",
   "frameworks": "arduino",
   "platforms": ["espressif32", "raspberrypi"]
 }
