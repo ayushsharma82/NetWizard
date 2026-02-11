@@ -82,6 +82,7 @@ Upgrade to NetWizard Pro: https://netwizard.pro
     #define NETWIZARD_REQ_HANDLER RequestHandler
   #endif
   #define HARDWARE "RP2040"
+  #define TARGET_PICO 1
 #elif defined(TARGET_RP2350) || defined(PICO_RP2350)
   #include "WiFi.h"
   #if NETWIZARD_USE_ASYNC_WEBSERVER == 1
@@ -96,6 +97,7 @@ Upgrade to NetWizard Pro: https://netwizard.pro
     #define NETWIZARD_REQ_HANDLER RequestHandler
   #endif
   #define HARDWARE "RP2350"
+  #define TARGET_PICO 1
 #endif
 
 #include "DNSServer.h"

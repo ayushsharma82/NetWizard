@@ -1138,9 +1138,17 @@ void NetWizard::_startPortal() {
       NETWIZARD_DEBUG_MSG("Starting portal in AP+STA mode\n");
       _connect(_nw.sta.ssid.c_str(), _nw.sta.password.c_str(), true);
     }
+#if defined(TARGET_PICO)
+    WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password == "" ? nullptr : _nw.portal.ap.password.c_str());
+#else
     WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password.c_str());
+#endif
   } else {
+#if defined(TARGET_PICO)
+    WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password == "" ? nullptr : _nw.portal.ap.password.c_str());
+#else
     WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password.c_str());
+#endif
   }
 
   // Start DNS
