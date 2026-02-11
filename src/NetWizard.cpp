@@ -950,17 +950,17 @@ void NetWizard::_startHTTP() {
 
       // return scan data
       int16_t n = WiFi.scanComplete();
-      #if defined(ESP8266) || defined(ESP32)
-        if (n == WIFI_SCAN_RUNNING) {
-          _server->send(202, "application/json", "[]");
-          return _server->client().stop(); // Stop is needed because we sent no content length
-        } else if (n == WIFI_SCAN_FAILED) {
-          // restart scan
-          _restartScan();
-          _server->send(202, "application/json", "[]");
-          return _server->client().stop(); // Stop is needed because we sent no content length
-      #elif defined (TARGET_PICO)
-        if (!n) {
+#if defined(ESP8266) || defined(ESP32)
+      if (n == WIFI_SCAN_RUNNING) {
+        _server->send(202, "application/json", "[]");
+        return _server->client().stop(); // Stop is needed because we sent no content length
+      } else if (n == WIFI_SCAN_FAILED) {
+        // restart scan
+        _restartScan();
+        _server->send(202, "application/json", "[]");
+        return _server->client().stop(); // Stop is needed because we sent no content length
+#elif defined (TARGET_PICO)
+      if (n == -1) {
         _server->send(202, "application/json", "[]");
         return _server->client().stop(); // Stop is needed because we sent no content length
       #endif
