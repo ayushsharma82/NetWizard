@@ -963,7 +963,7 @@ void NetWizard::_startHTTP() {
       if (n == -1) {
         _server->send(202, "application/json", "[]");
         return _server->client().stop(); // Stop is needed because we sent no content length
-      #endif
+#endif
       } else {
         // serialize scan data
         String output;
