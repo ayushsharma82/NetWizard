@@ -152,6 +152,9 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
     NETWIZARD_DEBUG_MSG("Starting Captive Portal.\n");
     _startPortal();
 
+    // Start Scan
+    _restartScan();
+
     if (_nw.strategy == NetWizardStrategy::BLOCKING) {
       NETWIZARD_DEBUG_MSG("Entering blocking strategy loop.\n");
       // Loop
