@@ -222,6 +222,7 @@ class NetWizard {
     struct {
       NetWizardStrategy strategy = NetWizardStrategy::BLOCKING;
       NetWizardConnectionStatus status = NetWizardConnectionStatus::DISCONNECTED;
+      NetWizardConnectionStatus autoconnect_connection_result = NetWizardConnectionStatus::DISCONNECTED;
       NetWizardOnConnectionStatusCallback status_cb = nullptr;
       String hostname = "netwizard";
 
