@@ -93,6 +93,9 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
     WiFi.persistent(false);
     _connect(_nw.sta.ssid.c_str(), _nw.sta.password.c_str(), true);
 
+    // Preset connection result to CONNECTING
+    _nw.autoconnect_connection_result = NetWizardConnectionStatus::CONNECTING;
+
     // Check if connected within connection timeout
     unsigned long startMillis = millis();
     unsigned long lastConnectMillis = startMillis;
@@ -103,16 +106,21 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
 
       // Check if connected
       if (_nw.status == NetWizardConnectionStatus::CONNECTED) {
+        _nw.autoconnect_connection_result = _nw.status;
         break;
       }
 
-      // Reconnect if not connected at interval of 5 seconds
+      // Reconnect if not connected at interval of 10 seconds
       if (millis() - lastConnectMillis > 10000) {
         if (
           _nw.status == NetWizardConnectionStatus::DISCONNECTED
           || _nw.status == NetWizardConnectionStatus::CONNECTION_LOST
           || _nw.status == NetWizardConnectionStatus::CONNECTION_FAILED
+          || _nw.status == NetWizardConnectionStatus::NOT_FOUND
         ) {
+          // Store last connection result
+          _nw.autoconnect_connection_result = _nw.status;
+
           NETWIZARD_DEBUG_MSG("Trying to connect again...\n");
           // Set hostname
           if (_nw.hostname != "") {
@@ -129,7 +137,8 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
 
     if (_nw.status != NetWizardConnectionStatus::CONNECTED) {
       // No connection within timeout
-      NETWIZARD_DEBUG_MSG("Failed to connect\n");
+      NETWIZARD_DEBUG_MSG("Timed out while trying to connect to saved credentials\n");
+      _disconnect();
     } else {
       NETWIZARD_DEBUG_MSG("Connected to saved credentials\n");
       start_captive_portal = false;
@@ -1101,12 +1110,24 @@ void NetWizard::_startPortal() {
   if (_nw.hostname != "") {
     WiFi.setHostname(_nw.hostname.c_str());
   }
-  WiFi.mode(WIFI_AP_STA);
+
+  if (WiFi.getMode() != WIFI_AP_STA) {
+    NETWIZARD_DEBUG_MSG("Setting WiFi mode to AP+STA\n");
+    WiFi.mode(WIFI_AP_STA);
+  }
+
   WiFi.persistent(false);
+
+  // If configured -> WIFI_AP_STA otherwise WIFI_AP
   if (this->isConfigured()) {
-    // If connection status is not NOT_FOUND, then disconnect
-    if (_nw.status == NetWizardConnectionStatus::NOT_FOUND) {
-      NETWIZARD_DEBUG_MSG("Configured connection not found. Starting portal with AP only.\n");
+    // If connection status is not CONNECTED, disconnect and start portal in AP only mode till timeout.
+    // This is to prevent the portal from getting stuck in SCANNING or CONNECT state if the configured network is not available.
+    if (
+      _nw.autoconnect_connection_result == NetWizardConnectionStatus::CONNECTING
+      || _nw.autoconnect_connection_result == NetWizardConnectionStatus::CONNECTION_FAILED
+      || _nw.autoconnect_connection_result == NetWizardConnectionStatus::NOT_FOUND
+    ) {
+      NETWIZARD_DEBUG_MSG("Configured connection not found. Starting portal with AP only (STA unconfigured).\n");
       _disconnect();
     } else {
       NETWIZARD_DEBUG_MSG("Starting portal in AP+STA mode\n");
