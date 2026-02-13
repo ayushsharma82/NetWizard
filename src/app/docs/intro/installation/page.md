@@ -16,25 +16,25 @@ NetWizard depends on the following dependencies to work properly. Please stricly
 
 ### For ESP32
 
-- [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32) >= **v3.1.0**
-- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.3.0**
+- [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32) >= **v3.3.7**
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.4.2**
 
 
 ### For RP2040 + W 
 
 Example: RaspberryPi Pico W
 
-- [Arduino Pico Core](https://github.com/earlephilhower/arduino-pico) - **v4.4.3**
-- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.3.0**
-- [Preferences](https://github.com/vshymanskyy/Preferences) - **v2.1.0**
+- [Arduino Pico Core](https://github.com/earlephilhower/arduino-pico) >= **v5.5.0**
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.4.2**
+- [Preferences](https://github.com/vshymanskyy/Preferences) - **v2.2.2**
 
 ### For RP2350 + W
 
 Example: RaspberryPi Pico 2W
 
-- [Arduino Pico Core](https://github.com/earlephilhower/arduino-pico) - **v4.4.3**
-- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.3.0**
-- [Preferences](https://github.com/vshymanskyy/Preferences) - **v2.1.0**
+- [Arduino Pico Core](https://github.com/earlephilhower/arduino-pico) >= **v5.5.0**
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - **v7.4.2**
+- [Preferences](https://github.com/vshymanskyy/Preferences) - **v2.2.2**
 
 ---
 
