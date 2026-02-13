@@ -14,6 +14,7 @@
 
 # production
 /build
+/portal
 
 # misc
 .DS_Store
