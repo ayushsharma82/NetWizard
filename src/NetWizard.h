@@ -303,7 +303,7 @@ class NetWizard {
     void _startHTTP();
     void _stopHTTP();
     // Portal
-    void _startPortal();
+    void _startPortal(bool check_autoconnect_result = false);
     void _stopPortal();
 
   protected:

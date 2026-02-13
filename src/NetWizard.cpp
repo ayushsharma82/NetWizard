@@ -93,8 +93,8 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
     WiFi.persistent(false);
     _connect(_nw.sta.ssid.c_str(), _nw.sta.password.c_str(), true);
 
-    // Preset connection result to CONNECTING
-    _nw.autoconnect_connection_result = NetWizardConnectionStatus::CONNECTING;
+    // Preset connection result to DISCONNECTED
+    _nw.autoconnect_connection_result = NetWizardConnectionStatus::DISCONNECTED;
 
     // Check if connected within connection timeout
     unsigned long startMillis = millis();
@@ -150,7 +150,10 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
     _stopPortal();
     // Start Portal
     NETWIZARD_DEBUG_MSG("Starting Captive Portal.\n");
-    _startPortal();
+    _startPortal(true);
+    
+    // A small delay to stabilize WiFi
+    delay(50);
 
     // Start Scan
     _restartScan();
@@ -409,7 +412,7 @@ void NetWizard::loop() {
 }
 
 void NetWizard::startPortal() {
-  return _startPortal();
+  return _startPortal(false);
 }
 
 void NetWizard::stopPortal() {
@@ -1113,7 +1116,7 @@ void NetWizard::_stopHTTP() {
   _server_running = false;
 }
 
-void NetWizard::_startPortal() {
+void NetWizard::_startPortal(bool check_autoconnect_result) {
   // Set hostname
   if (_nw.hostname != "") {
     WiFi.setHostname(_nw.hostname.c_str());
@@ -1130,29 +1133,23 @@ void NetWizard::_startPortal() {
   if (this->isConfigured()) {
     // If connection status is not CONNECTED, disconnect and start portal in AP only mode till timeout.
     // This is to prevent the portal from getting stuck in SCANNING or CONNECT state if the configured network is not available.
-    if (
-      _nw.autoconnect_connection_result == NetWizardConnectionStatus::CONNECTING
-      || _nw.autoconnect_connection_result == NetWizardConnectionStatus::CONNECTION_FAILED
-      || _nw.autoconnect_connection_result == NetWizardConnectionStatus::NOT_FOUND
-    ) {
+    if (check_autoconnect_result && _nw.autoconnect_connection_result != NetWizardConnectionStatus::CONNECTED) {
       NETWIZARD_DEBUG_MSG("Configured connection not found. Starting portal with AP only (STA unconfigured).\n");
+      _disconnect();
+    } else if (!check_autoconnect_result && _nw.status != NetWizardConnectionStatus::CONNECTED) {
+      NETWIZARD_DEBUG_MSG("Current connection status is not connected. Starting portal with AP only (STA unconfigured).\n");
       _disconnect();
     } else {
       NETWIZARD_DEBUG_MSG("Starting portal in AP+STA mode\n");
       _connect(_nw.sta.ssid.c_str(), _nw.sta.password.c_str(), true);
     }
-#if defined(TARGET_PICO)
-    WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password == "" ? nullptr : _nw.portal.ap.password.c_str());
-#else
-    WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password.c_str());
-#endif
-  } else {
-#if defined(TARGET_PICO)
-    WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password == "" ? nullptr : _nw.portal.ap.password.c_str());
-#else
-    WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password.c_str());
-#endif
   }
+
+#if defined(TARGET_PICO)
+  WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password == "" ? nullptr : _nw.portal.ap.password.c_str());
+#else
+  WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password.c_str());
+#endif
 
   // Start DNS
   if (_dns == nullptr) {
