@@ -82,6 +82,7 @@ Upgrade to NetWizard Pro: https://netwizard.pro
     #define NETWIZARD_REQ_HANDLER RequestHandler
   #endif
   #define HARDWARE "RP2040"
+  #define TARGET_PICO 1
 #elif defined(TARGET_RP2350) || defined(PICO_RP2350)
   #include "WiFi.h"
   #if NETWIZARD_USE_ASYNC_WEBSERVER == 1
@@ -96,6 +97,7 @@ Upgrade to NetWizard Pro: https://netwizard.pro
     #define NETWIZARD_REQ_HANDLER RequestHandler
   #endif
   #define HARDWARE "RP2350"
+  #define TARGET_PICO 1
 #endif
 
 #include "DNSServer.h"
@@ -222,6 +224,7 @@ class NetWizard {
     struct {
       NetWizardStrategy strategy = NetWizardStrategy::BLOCKING;
       NetWizardConnectionStatus status = NetWizardConnectionStatus::DISCONNECTED;
+      NetWizardConnectionStatus autoconnect_connection_result = NetWizardConnectionStatus::DISCONNECTED;
       NetWizardOnConnectionStatusCallback status_cb = nullptr;
       String hostname = "netwizard";
 
@@ -300,7 +303,7 @@ class NetWizard {
     void _startHTTP();
     void _stopHTTP();
     // Portal
-    void _startPortal();
+    void _startPortal(bool check_autoconnect_result = false);
     void _stopPortal();
 
   protected:

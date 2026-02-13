@@ -93,6 +93,9 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
     WiFi.persistent(false);
     _connect(_nw.sta.ssid.c_str(), _nw.sta.password.c_str(), true);
 
+    // Preset connection result to DISCONNECTED
+    _nw.autoconnect_connection_result = NetWizardConnectionStatus::DISCONNECTED;
+
     // Check if connected within connection timeout
     unsigned long startMillis = millis();
     unsigned long lastConnectMillis = startMillis;
@@ -103,16 +106,21 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
 
       // Check if connected
       if (_nw.status == NetWizardConnectionStatus::CONNECTED) {
+        _nw.autoconnect_connection_result = _nw.status;
         break;
       }
 
-      // Reconnect if not connected at interval of 5 seconds
+      // Reconnect if not connected at interval of 10 seconds
       if (millis() - lastConnectMillis > 10000) {
         if (
           _nw.status == NetWizardConnectionStatus::DISCONNECTED
           || _nw.status == NetWizardConnectionStatus::CONNECTION_LOST
           || _nw.status == NetWizardConnectionStatus::CONNECTION_FAILED
+          || _nw.status == NetWizardConnectionStatus::NOT_FOUND
         ) {
+          // Store last connection result
+          _nw.autoconnect_connection_result = _nw.status;
+
           NETWIZARD_DEBUG_MSG("Trying to connect again...\n");
           // Set hostname
           if (_nw.hostname != "") {
@@ -129,7 +137,8 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
 
     if (_nw.status != NetWizardConnectionStatus::CONNECTED) {
       // No connection within timeout
-      NETWIZARD_DEBUG_MSG("Failed to connect\n");
+      NETWIZARD_DEBUG_MSG("Timed out while trying to connect to saved credentials\n");
+      _disconnect();
     } else {
       NETWIZARD_DEBUG_MSG("Connected to saved credentials\n");
       start_captive_portal = false;
@@ -141,7 +150,13 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
     _stopPortal();
     // Start Portal
     NETWIZARD_DEBUG_MSG("Starting Captive Portal.\n");
-    _startPortal();
+    _startPortal(true);
+    
+    // A small delay to stabilize WiFi
+    delay(50);
+
+    // Start Scan
+    _restartScan();
 
     if (_nw.strategy == NetWizardStrategy::BLOCKING) {
       NETWIZARD_DEBUG_MSG("Entering blocking strategy loop.\n");
@@ -331,6 +346,10 @@ void NetWizard::loop() {
         NETWIZARD_DEBUG_MSG("Connecting to temporary credentials\n");
         NETWIZARD_DEBUG_MSG("SSID: " + _nw.portal.sta.ssid + " \n");
         NETWIZARD_DEBUG_MSG("Password: " + _nw.portal.sta.password + " \n");
+        // Ensure WiFi mode is AP+STA before connecting
+        if (WiFi.getMode() != WIFI_AP_STA) {
+          WiFi.mode(WIFI_AP_STA);
+        }
         // Connect to temporary credentials
         WiFi.persistent(false);
         _connect(_nw.portal.sta.ssid.c_str(), _nw.portal.sta.password.c_str(), false);
@@ -365,6 +384,7 @@ void NetWizard::loop() {
       case NetWizardPortalState::SUCCESS:
       case NetWizardPortalState::FAILED:
       case NetWizardPortalState::TIMEOUT:
+      default:
         break;
     }
   }
@@ -392,7 +412,7 @@ void NetWizard::loop() {
 }
 
 void NetWizard::startPortal() {
-  return _startPortal();
+  return _startPortal(false);
 }
 
 void NetWizard::stopPortal() {
@@ -435,7 +455,7 @@ void NetWizard::_disconnect() {
     WiFi.disconnect(false, true);
   #elif defined(ESP32)
     WiFi.disconnect(false, true, 200);
-  #elif defined(TARGET_RP2040) || defined(TARGET_RP2350) || defined(PICO_RP2040) || defined(PICO_RP2350)
+  #elif defined(TARGET_PICO)
     WiFi.disconnect(false);
   #endif
   _nw.status = NetWizardConnectionStatus::DISCONNECTED;
@@ -564,7 +584,7 @@ void NetWizard::_generateScanJson(String& str) {
     obj["s"] = WiFi.SSID(i);
     #if defined(ESP8266) || defined(ESP32)
       obj["b"] = WiFi.BSSIDstr(i);
-    #elif defined(TARGET_RP2040) || defined(TARGET_RP2350) || defined(PICO_RP2040) || defined(PICO_RP2350)
+    #elif defined(TARGET_PICO)
       String bssid;
       uint8_t b[6];
       WiFi.BSSID(i, b);
@@ -649,7 +669,7 @@ void NetWizard::_generateScanJson(String& str) {
           enc = NetWizardEncryptionType::UNKNOWN;
           break;
       }
-    #elif defined(TARGET_RP2040) || defined(TARGET_RP2350) || defined(PICO_RP2040) || defined(PICO_RP2350)
+    #elif defined(TARGET_PICO)
       switch (WiFi.encryptionType(i)) {
         case ENC_TYPE_NONE:
           enc = NetWizardEncryptionType::OPEN;
@@ -793,17 +813,17 @@ void NetWizard::_startHTTP() {
 
       // return scan data
       int16_t n = WiFi.scanComplete();
-      #if defined(ESP8266) || defined(ESP32)
-        if (n == WIFI_SCAN_RUNNING) {
-          return request->send(202, "text/plain", "");
-        } else if (n == WIFI_SCAN_FAILED) {
-          // restart scan
-          _restartScan();
-          return request->send(202, "text/plain", "");
-      #elif defined(TARGET_RP2040) || defined(TARGET_RP2350) || defined(PICO_RP2040) || defined(PICO_RP2350)
-        if (!n) {
-          return request->send(202, "text/plain", "");
-      #endif
+#if defined(ESP8266) || defined(ESP32)
+      if (n == WIFI_SCAN_RUNNING) {
+        return request->send(202, "text/plain", "");
+      } else if (n == WIFI_SCAN_FAILED) {
+        // restart scan
+        _restartScan();
+        return request->send(202, "text/plain", "");
+#elif defined(TARGET_PICO)
+      if (n == -1) {
+        return request->send(202, "text/plain", "");
+#endif
       } else {
         // serialize scan data
         String output;
@@ -933,20 +953,20 @@ void NetWizard::_startHTTP() {
 
       // return scan data
       int16_t n = WiFi.scanComplete();
-      #if defined(ESP8266) || defined(ESP32)
-        if (n == WIFI_SCAN_RUNNING) {
-          _server->send(202, "application/json", "[]");
-          return _server->client().stop(); // Stop is needed because we sent no content length
-        } else if (n == WIFI_SCAN_FAILED) {
-          // restart scan
-          _restartScan();
-          _server->send(202, "application/json", "[]");
-          return _server->client().stop(); // Stop is needed because we sent no content length
-      #elif defined (TARGET_RP2040) || defined(TARGET_RP2350) || defined(PICO_RP2040) || defined(PICO_RP2350)
-        if (!n) {
+#if defined(ESP8266) || defined(ESP32)
+      if (n == WIFI_SCAN_RUNNING) {
         _server->send(202, "application/json", "[]");
         return _server->client().stop(); // Stop is needed because we sent no content length
-      #endif
+      } else if (n == WIFI_SCAN_FAILED) {
+        // restart scan
+        _restartScan();
+        _server->send(202, "application/json", "[]");
+        return _server->client().stop(); // Stop is needed because we sent no content length
+#elif defined (TARGET_PICO)
+      if (n == -1) {
+        _server->send(202, "application/json", "[]");
+        return _server->client().stop(); // Stop is needed because we sent no content length
+#endif
       } else {
         // serialize scan data
         String output;
@@ -1096,26 +1116,40 @@ void NetWizard::_stopHTTP() {
   _server_running = false;
 }
 
-void NetWizard::_startPortal() {
+void NetWizard::_startPortal(bool check_autoconnect_result) {
   // Set hostname
   if (_nw.hostname != "") {
     WiFi.setHostname(_nw.hostname.c_str());
   }
-  WiFi.mode(WIFI_AP_STA);
+
+  if (WiFi.getMode() != WIFI_AP_STA) {
+    NETWIZARD_DEBUG_MSG("Setting WiFi mode to AP+STA\n");
+    WiFi.mode(WIFI_AP_STA);
+  }
+
   WiFi.persistent(false);
+
+  // If configured -> WIFI_AP_STA otherwise WIFI_AP
   if (this->isConfigured()) {
-    // If connection status is not NOT_FOUND, then disconnect
-    if (_nw.status == NetWizardConnectionStatus::NOT_FOUND) {
-      NETWIZARD_DEBUG_MSG("Configured connection not found. Starting portal with AP only.\n");
+    // If connection status is not CONNECTED, disconnect and start portal in AP only mode till timeout.
+    // This is to prevent the portal from getting stuck in SCANNING or CONNECT state if the configured network is not available.
+    if (check_autoconnect_result && _nw.autoconnect_connection_result != NetWizardConnectionStatus::CONNECTED) {
+      NETWIZARD_DEBUG_MSG("Configured connection not found. Starting portal with AP only (STA unconfigured).\n");
+      _disconnect();
+    } else if (!check_autoconnect_result && _nw.status != NetWizardConnectionStatus::CONNECTED) {
+      NETWIZARD_DEBUG_MSG("Current connection status is not connected. Starting portal with AP only (STA unconfigured).\n");
       _disconnect();
     } else {
       NETWIZARD_DEBUG_MSG("Starting portal in AP+STA mode\n");
       _connect(_nw.sta.ssid.c_str(), _nw.sta.password.c_str(), true);
     }
-    WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password.c_str());
-  } else {
-    WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password.c_str());
   }
+
+#if defined(TARGET_PICO)
+  WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password == "" ? nullptr : _nw.portal.ap.password.c_str());
+#else
+  WiFi.softAP(_nw.portal.ap.ssid.c_str(), _nw.portal.ap.password.c_str());
+#endif
 
   // Start DNS
   if (_dns == nullptr) {
@@ -1189,14 +1223,14 @@ void NetWizard::_stopPortal() {
       return WiFi.AP.hasIP() && WiFi.AP.localIP() == request->client()->localIP();
     #elif defined(ESP8266)
       return WiFi.softAPIP() == request->client()->localIP();
-    #elif defined(TARGET_RP2040) || defined(TARGET_RP2350) || defined(PICO_RP2040) || defined(PICO_RP2350)
+    #elif defined(TARGET_PICO)
       return WiFi.softAPIP() == request->client()->localIP();
     #endif
   }
 #else
   #if defined(ESP8266) || defined(ESP32)
     bool NetWizard::_onAPFilter(NETWIZARD_WEBSERVER &server) {
-  #elif defined(TARGET_RP2040) || defined(TARGET_RP2350) || defined(PICO_RP2040) || defined(PICO_RP2350)
+  #elif defined(TARGET_PICO)
     bool NetWizard::_onAPFilter(HTTPServer &server) {
   #endif
     #if defined(ESP32)
@@ -1205,7 +1239,7 @@ void NetWizard::_stopPortal() {
     #elif defined(ESP8266)
       // Serial.printf("AP IP: %s, Client IP: %s\n", WiFi.softAPIP().toString().c_str(), server.client().localIP().toString().c_str());
       return WiFi.softAPIP() == server.client().localIP();
-    #elif defined(TARGET_RP2040) || defined(TARGET_RP2350) || defined(PICO_RP2040) || defined(PICO_RP2350)
+    #elif defined(TARGET_PICO)
       // Serial.printf("AP IP: %s, Client IP: %s\n", WiFi.softAPIP().toString().c_str(), server.client().localIP().toString().c_str());
       return WiFi.softAPIP() == server.client().localIP();
     #endif

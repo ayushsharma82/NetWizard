@@ -1,0 +1,67 @@
+flowchart TD
+    Start(["User Sketch Starts"]) --> Init["Create NetWizard instance<br/>NW = NetWizard(&server)"]
+    Init --> Config["Optional Setup:<br/>setStrategy, setHostname,<br/>setAuthentication, addParameters,<br/>register callbacks"]
+    Config --> AC["autoConnect(apSSID, apPass)"]
+
+    AC --> LoadCreds["Load saved WiFi credentials<br/>from NVS / Preferences"]
+    LoadCreds --> HasCreds{"Saved credentials<br/>exist?"}
+
+    HasCreds -- Yes --> TryConnect["Connect to saved WiFi<br/>with retry up to connectTimeout"]
+    TryConnect --> Connected{"Connected?"}
+    Connected -- Yes --> Done["WiFi Connected"]
+    Connected -- No --> NeedPortal["Start Captive Portal"]
+
+    HasCreds -- No --> NeedPortal
+
+    NeedPortal --> PortalStart["Start Captive Portal<br/>WiFi AP+STA mode<br/>DNS Server + HTTP Server + WiFi Scan"]
+
+    subgraph Portal["Captive Portal Active"]
+        direction TB
+        PortalUI["User opens portal webpage<br/>192.168.4.1"]
+        PortalUI --> SelectWiFi["Selects WiFi network<br/>+ enters password + config params"]
+        SelectWiFi --> Submit["Submits via /netwizard/save"]
+        Submit --> TryNew["Portal tries connecting<br/>to submitted credentials"]
+        TryNew --> NewResult{"Connected?"}
+        NewResult -- Yes --> SaveCreds["Save credentials to NVS<br/>State = SUCCESS"]
+        NewResult -- No / Timeout --> RetryOrFail["State = TIMEOUT<br/>User can try again"]
+        RetryOrFail --> PortalUI
+    end
+
+    PortalStart --> Portal
+
+    subgraph Strategy["Execution Strategy"]
+        direction LR
+        Blocking["BLOCKING<br/>Waits here until<br/>portal completes"]
+        NonBlocking["NON_BLOCKING<br/>Returns immediately"]
+    end
+
+    PortalStart --> Strategy
+
+    SaveCreds --> StopPortal["Stop Portal<br/>Stop DNS + HTTP + SoftAP"]
+    StopPortal --> Reconnect{"Has saved<br/>credentials?"}
+    Reconnect -- Yes --> STAMode["Switch to STA mode<br/>Connect to saved WiFi"]
+    Reconnect -- No --> Off["Turn WiFi off"]
+    STAMode --> Done
+    Off --> Idle["Idle - No WiFi"]
+
+    Done --> MainLoop(["loop - must be called repeatedly"])
+    Idle --> MainLoop
+
+    MainLoop --> M1["Process DNS + HTTP requests"]
+    M1 --> M2["Update WiFi connection status"]
+    M2 --> M3["Run portal state machine<br/>if portal is active"]
+    M3 --> M4["Check portal timeout<br/>Default: 5 minutes"]
+    M4 --> M5["Fire status/state<br/>change callbacks"]
+    M5 --> MainLoop
+
+    classDef green fill:#4CAF50,stroke:#388E3C,color:#fff
+    classDef blue fill:#2196F3,stroke:#1565C0,color:#fff
+    classDef orange fill:#FF9800,stroke:#E65100,color:#fff
+    classDef purple fill:#9C27B0,stroke:#6A1B9A,color:#fff
+    classDef red fill:#f44336,stroke:#c62828,color:#fff
+
+    class Done,SaveCreds green
+    class PortalStart,Portal blue
+    class TryConnect,TryNew orange
+    class MainLoop purple
+    class RetryOrFail,Off red
