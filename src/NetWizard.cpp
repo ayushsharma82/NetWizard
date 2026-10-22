@@ -84,7 +84,6 @@ void NetWizard::autoConnect(const char* ssid, const char* password) {
   if (this->isConfigured()) {
     NETWIZARD_DEBUG_MSG("Connecting to saved credentials\n");
     NETWIZARD_DEBUG_MSG("SSID: " + _nw.sta.ssid + " \n");
-    Serial.printf("Connecting to %s, %s\n", _nw.sta.ssid.c_str(), _nw.sta.password.c_str());
     // Set hostname
     if (_nw.hostname != "") {
       WiFi.setHostname(_nw.hostname.c_str());
