@@ -130,10 +130,13 @@ void setup(void) {
     Serial.println("NW onConfig Received");
 
     // Print new parameter values
-    Serial.printf("Host: %s\n", nw_mqtt_host.getValueStr().c_str());
-    Serial.printf("Port: %s\n", nw_mqtt_port.getValueStr().c_str());
+    Serial.printf("Host: %s\n", nw_mqtt_host.getValue().c_str());
+    Serial.printf("Port: %s\n", nw_mqtt_port.getValue().c_str());
     return true; // <-- return true to approve request, false to reject
   });
+
+  // (Optional) Default portal language, visitors can still switch it. Leave unset to follow the browser language.
+  // NW.setLanguage("hi");
 
   // Start NetWizard
   NW.autoConnect("NetWizard Demo", "");

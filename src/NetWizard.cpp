@@ -53,6 +53,14 @@ void NetWizard::setPortalTimeout(unsigned long timeout) {
   _nw.portal.timeout = timeout;
 }
 
+void NetWizard::setLanguage(String& code) {
+  this->setLanguage(code.c_str());
+}
+
+void NetWizard::setLanguage(const char* code) {
+  _nw.portal.language = code;
+}
+
 void NetWizard::setCredentials(const char* ssid, const char* password) {
   _nw.sta.ssid = ssid;
   _nw.sta.password = password;
@@ -526,6 +534,9 @@ void NetWizard::_generateStatusJson(String& str) {
   json["conn"]["mac"] = WiFi.macAddress();
   json["conn"]["ip"] = WiFi.localIP().toString();
   json["portal"]["state"] = (uint8_t)_nw.portal.state;
+  if (_nw.portal.language != "") {
+    json["portal"]["lang"] = _nw.portal.language.c_str();
+  }
 
   // Serialize JSON to string
   serializeJson(json, str);
@@ -850,19 +861,22 @@ void NetWizard::_startHTTP() {
 
       JsonObject obj = json.as<JsonObject>();
 
+      // Only connect to WiFi when the request carries an SSID, otherwise it is a settings-only save
+      bool hasCredentials = obj["credentials"].is<JsonObject>() && obj["credentials"]["ssid"].is<const char*>() && strlen(obj["credentials"]["ssid"].as<const char*>()) > 0;
+
       if (obj["params"].is<JsonArray>()) {
         JsonArray params = obj["params"];
         if (!_parseConfigJson(params)) {
           return request->send(400, "text/plain", "Invalid request data");
         } else {
           // If we only got params, then we can set the state to SUCCESS
-          if (!obj["credentials"].is<JsonObject>()) {
+          if (!hasCredentials) {
             _nw.portal.state = NetWizardPortalState::SUCCESS;
           }
         }
       }
 
-      if (obj["credentials"].is<JsonObject>()) {
+      if (hasCredentials) {
         JsonObject credentials = obj["credentials"];
         if (!_parseCredentialsJson(credentials)) {
           return request->send(400, "text/plain", "Invalid request data");
@@ -1008,19 +1022,22 @@ void NetWizard::_startHTTP() {
 
       JsonObject obj = json.as<JsonObject>();
 
+      // Only connect to WiFi when the request carries an SSID, otherwise it is a settings-only save
+      bool hasCredentials = obj["credentials"].is<JsonObject>() && obj["credentials"]["ssid"].is<const char*>() && strlen(obj["credentials"]["ssid"].as<const char*>()) > 0;
+
       if (obj["params"].is<JsonArray>()) {
         JsonArray params = obj["params"];
         if (!_parseConfigJson(params)) {
           return _server->send(400, "text/plain", "Invalid request data");
         } else {
           // If we only got params, then we can set the state to SUCCESS
-          if (!obj["credentials"].is<JsonObject>()) {
+          if (!hasCredentials) {
             _nw.portal.state = NetWizardPortalState::SUCCESS;
           }
         }
       }
 
-      if (obj["credentials"].is<JsonObject>()) {
+      if (hasCredentials) {
         JsonObject credentials = obj["credentials"];
         if (!_parseCredentialsJson(credentials)) {
           return _server->send(400, "text/plain", "Invalid request data");

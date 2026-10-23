@@ -28,7 +28,7 @@ const String& NetWizardParameter::getValue() {
 }
 
 const String& NetWizardParameter::getValueStr() {
-  return _value;
+  return getValue();
 }
 
 void NetWizardParameter::getValue(String& value) {

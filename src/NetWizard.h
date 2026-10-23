@@ -164,6 +164,10 @@ class NetWizard {
     void setHostname(String& hostname);
     void setConnectTimeout(unsigned long timeout);
     void setPortalTimeout(unsigned long timeout);
+
+    // default portal language (en, es, fr, de, pt, it, ru, zh, ja, ko, ar, hi), empty = visitor's browser language
+    void setLanguage(const char* code);
+    void setLanguage(String& code);
     void setStrategy(NetWizardStrategy strategy);
 
     // replace existing credentials (without invoking portal or WiFi connection)
@@ -245,6 +249,7 @@ class NetWizard {
         unsigned long timeout = NETWIZARD_PORTAL_TIMEOUT;
         unsigned long start_millis = 0;
         unsigned long connect_millis = 0;
+        String language = "";
         NetWizardPortalState state = NetWizardPortalState::IDLE;
         NetWizardOnPortalStateCallback state_cb = nullptr;
 
