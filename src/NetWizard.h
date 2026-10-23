@@ -101,7 +101,7 @@ Upgrade to NetWizard Pro: https://netwizard.pro
 #endif
 
 #include "DNSServer.h"
-#include "NetWizardParameter.h"
+#include "NetWizardField.h"
 
 // enum for strategy
 typedef enum {
@@ -146,7 +146,7 @@ enum class NetWizardEncryptionType {
   UNKNOWN
 };
 
-class NetWizardParameter;
+class NetWizardField;
 
 typedef std::function<void(NetWizardConnectionStatus)> NetWizardOnConnectionStatusCallback;
 typedef std::function<void(NetWizardPortalState)> NetWizardOnPortalStateCallback;
@@ -164,6 +164,10 @@ class NetWizard {
     void setHostname(String& hostname);
     void setConnectTimeout(unsigned long timeout);
     void setPortalTimeout(unsigned long timeout);
+
+    // default portal language (en, es, fr, de, pt, it, ru, zh, ja, ko, ar, hi), empty = visitor's browser language
+    void setLanguage(const char* code);
+    void setLanguage(String& code);
     void setStrategy(NetWizardStrategy strategy);
 
     // replace existing credentials (without invoking portal or WiFi connection)
@@ -200,10 +204,10 @@ class NetWizard {
     void startPortal();
     void stopPortal();
 
-    // configuration params
+    // settings fields - called by NetWizardField, you don't need these in a sketch
     uint32_t nextId();
-    void addParameter(NetWizardParameter* parameter);
-    void removeParameter(NetWizardParameter* parameter);
+    void add(NetWizardField* field);
+    void remove(NetWizardField* field);
 
     ~NetWizard();
 
@@ -245,6 +249,7 @@ class NetWizard {
         unsigned long timeout = NETWIZARD_PORTAL_TIMEOUT;
         unsigned long start_millis = 0;
         unsigned long connect_millis = 0;
+        String language = "";
         NetWizardPortalState state = NetWizardPortalState::IDLE;
         NetWizardOnPortalStateCallback state_cb = nullptr;
 
@@ -279,7 +284,7 @@ class NetWizard {
 
         struct {
           uint32_t counter = 0;
-          Vector<NetWizardParameter*> parameters;
+          Vector<NetWizardField*> fields;
           NetWizardOnConfigCallback callback = nullptr;
         } config;
       } portal;
@@ -296,6 +301,7 @@ class NetWizard {
     void _generateStatusJson(String& str);
     void _generateSchemaJson(String& str);
     void _generateScanJson(String& str);
+    NetWizardField* _findField(uint32_t id);
     bool _parseConfigJson(JsonArray& arr);
     bool _parseCredentialsJson(JsonObject& obj);
     void _restartScan();

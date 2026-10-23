@@ -1,4 +1,4 @@
-<p align="center"><a href="https://netwizard.pro?ref=ghfeature" target="_blank"><img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/netwizard-feature.png" width="1200"></a></p>
+<p align="center"><a href="https://netwizard.pro?ref=ghfeature" target="_blank"><img src="docs/netwizard-feature.png" alt="NetWizard Lite" width="1200"></a></p>
 <br/>
 <p>
 <img src="https://img.shields.io/github/last-commit/ayushsharma82/NetWizard.svg?style=for-the-badge" />
@@ -20,6 +20,9 @@ Additionally, NetWizard lets you create a custom configuration page of your choi
 - 🛜 No hard-coded WiFi credentials
 - ⚙️ Create a custom configuration page using just C++
 - ⚡ Intuitive step-by-step setup flow which makes user interaction easier
+- 📱 Responsive portal, full-screen on phones and a focused card on desktop
+- 🌐 Available in 12 languages (with right-to-left support) and a language picker for your users
+- 📍 Shows the device's network and IP address once it's connected
 - 🎷 No need to learn HTML/CSS/JS
 - 🛫 Ready to use within 4-5 lines of code
 
@@ -47,21 +50,68 @@ NetWizard works on the following microcontrollers/boards:
 <br/>
 <br/>
 
-<img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/netwizard-lite-preview.gif" width="1200">
+<img src="docs/netwizard-lite-preview.png" alt="NetWizard Lite setup flow on a phone" width="1200">
 
 <br/>
+<br/>
+
+On a laptop or desktop, the same steps appear in a centered card:
+
+<br/>
+<br/>
+
+<img src="docs/netwizard-lite-desktop.png" alt="NetWizard Lite portal on desktop" width="1200">
+
+<br/>
+<br/>
+
+## Settings Fields
+
+Ask for your own settings on the portal's last step. Each field has a type, so you get the value back as that type:
+
+```cpp
+NetWizardHeader mqtt(&NW, "MQTT");
+NetWizardInput host(&NW, "Host", "", "mqtt.example.com"); // String
+NetWizardInput port(&NW, "Port", 1883);                    // int
+
+NW.onConfig([&]() {
+  String h = host.getValue();
+  int p = port.getValue();
+  return true; // return false to reject the values
+});
+```
+
+`NetWizardInput` holds a `String`, `int`, `float` or `double`. Numeric fields bring up the number keyboard and are checked on the device, so a value that doesn't parse is rejected instead of being saved. `NetWizardDivider` and `NetWizardSpacer` add separation between fields.
+
+<br/>
+
+## Portal Language
+
+The portal is translated into English, Spanish, French, German, Portuguese, Italian, Russian, Chinese, Japanese, Korean, Arabic and Hindi. By default it follows the language of the visitor's browser, and visitors can switch it from the language picker next to the close button.
+
+<p align="center"><img src="docs/netwizard-languages.gif" alt="NetWizard portal in 12 languages" width="300"></p>
+
+To choose the default language yourself, call `setLanguage()` before `autoConnect()`:
+
+```cpp
+NW.setLanguage("hi"); // en, es, fr, de, pt, it, ru, zh, ja, ko, ar or hi
+```
+
+A language the visitor picks is remembered on their device and takes priority over this default.
+
 <br/>
 
 ## Looking for more? Upgrade to Pro
 
 Netwizard Pro comes with the following extended functionality:
 
-- Exclusive Parameters (Password Input, Toggle and more)
+- Static IP configuration (set from code or by your users in the portal)
+- Exclusive settings fields (password, toggle and textarea)
 - Links
 - Statistics
 - Whitelabel / Branding
 - UI Source
-- Softt Commercial License 1.2
+- Softt Commercial License 1.3
 
 <br> <b>Available here: </b>
 
@@ -70,7 +120,7 @@ Netwizard Pro comes with the following extended functionality:
 <br/>
 
 <a href="https://netwizard.pro?ref=ghpropreview" target="_blank">
-  <img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/pro-preview.png" alt="NetWizard Pro" width="1200">
+  <img src="docs/pro-preview.png" alt="NetWizard Pro" width="1200">
 </a>
 
 <br>
@@ -87,4 +137,4 @@ Netwizard Pro comes with the following extended functionality:
 
 NetWizard open-source edition is licensed under Affero General Public License v3.0 ( AGPL-3.0 ).
 
-If you are intending to use NetWizard in a commercial project, please consider purchasing [NetWizard Pro](https://netwizard.pro?ref=ghlicense) which comes with a less restrictive SOFTT Commercial License 1.2 (SCL-1.2).
+If you are intending to use NetWizard in a commercial project, please consider purchasing [NetWizard Pro](https://netwizard.pro?ref=ghlicense) which comes with a less restrictive SOFTT Commercial License 1.3 (SCL-1.3).

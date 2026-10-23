@@ -3,6 +3,6 @@
 
 #include <Arduino.h>
 
-extern const uint8_t NETWIZARD_HTML[23117];
+extern const uint8_t NETWIZARD_HTML[37182];
 
 #endif
