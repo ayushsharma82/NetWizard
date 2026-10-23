@@ -65,6 +65,26 @@ On a laptop or desktop, the same steps appear in a centered card:
 <br/>
 <br/>
 
+## Settings Fields
+
+Ask for your own settings on the portal's last step. Each field has a type, so you get the value back as that type:
+
+```cpp
+NetWizardHeader mqtt(&NW, "MQTT");
+NetWizardInput host(&NW, "Host", "", "mqtt.example.com"); // String
+NetWizardInput port(&NW, "Port", 1883);                    // int
+
+NW.onConfig([&]() {
+  String h = host.getValue();
+  int p = port.getValue();
+  return true; // return false to reject the values
+});
+```
+
+`NetWizardInput` holds a `String`, `int`, `float` or `double`. Numeric fields bring up the number keyboard and are checked on the device, so a value that doesn't parse is rejected instead of being saved. `NetWizardDivider` and `NetWizardSpacer` add separation between fields.
+
+<br/>
+
 ## Portal Language
 
 The portal is translated into English, Spanish, French, German, Portuguese, Italian, Russian, Chinese, Japanese, Korean, Arabic and Hindi. By default it follows the language of the visitor's browser, and visitors can switch it from the language picker next to the close button.
@@ -86,7 +106,7 @@ A language the visitor picks is remembered on their device and takes priority ov
 Netwizard Pro comes with the following extended functionality:
 
 - Static IP configuration (set from code or by your users in the portal)
-- Exclusive Parameters (Password Input, Toggle and more)
+- Exclusive settings fields (password, toggle and textarea)
 - Links
 - Statistics
 - Whitelabel / Branding

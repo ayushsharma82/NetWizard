@@ -46,11 +46,11 @@ AsyncWebServer server(80);
 // Initialize NetWizard
 NetWizard NW(&server);
 
-// Setup configuration parameters
-NetWizardParameter nw_header(&NW, NW_HEADER, "MQTT");
-NetWizardParameter nw_divider1(&NW, NW_DIVIDER);
-NetWizardParameter nw_mqtt_host(&NW, NW_INPUT, "Host", "", "mqtt.example.com");
-NetWizardParameter nw_mqtt_port(&NW, NW_INPUT, "Port", "", "1883");
+// Settings fields, shown on the portal's settings step
+NetWizardHeader nw_header(&NW, "MQTT");
+NetWizardDivider nw_divider1(&NW);
+NetWizardInput nw_mqtt_host(&NW, "Host", "", "mqtt.example.com");  // String
+NetWizardInput nw_mqtt_port(&NW, "Port", 1883);                     // int
 
 void setup(void) {
   delay(3000);
@@ -141,7 +141,7 @@ void setup(void) {
 
     // Print new parameter values
     Serial.printf("Host: %s\n", nw_mqtt_host.getValue().c_str());
-    Serial.printf("Port: %s\n", nw_mqtt_port.getValue().c_str());
+    Serial.printf("Port: %d\n", nw_mqtt_port.getValue());
     return true; // <-- return true to approve request, false to reject
   });
 

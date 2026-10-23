@@ -1,4 +1,8 @@
 NetWizard	        KEYWORD1
+NetWizardInput	    KEYWORD1
+NetWizardHeader	    KEYWORD1
+NetWizardDivider	KEYWORD1
+NetWizardSpacer	    KEYWORD1
 begin		        KEYWORD2
 loop                KEYWORD2
 onConfig	        KEYWORD2

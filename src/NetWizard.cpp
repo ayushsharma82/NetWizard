@@ -6,15 +6,6 @@
 #define NETWIZARD_CONFIG_JSON_SIZE    1024
 #define NETWIZARD_CONNECT_JSON_SIZE   512
 
-// Integral type to string pairs events
-// ID, type
-struct NetWizardParameterTypeNames paramTypes[] = {
-  {NW_HEADER, "h"},
-  {NW_DIVIDER, "d"},
-  {NW_SPACER, "s"},
-  {NW_INPUT, "i"},
-};
-
 NetWizard::NetWizard(NETWIZARD_WEBSERVER *server) {
   _server = server;
   _nw.sta.configured = false;
@@ -430,18 +421,26 @@ uint32_t NetWizard::nextId() {
   return _nw.portal.config.counter++;
 }
 
-void NetWizard::addParameter(NetWizardParameter* parameter) {
-  _nw.portal.config.parameters.PushBack(parameter);
+void NetWizard::add(NetWizardField* field) {
+  _nw.portal.config.fields.PushBack(field);
 }
 
-void NetWizard::removeParameter(NetWizardParameter* parameter) {
-  for(int i=0; i < _nw.portal.config.parameters.Size(); i++){
-    NetWizardParameter *p = _nw.portal.config.parameters[i];
-    if(p->_id == parameter->_id){
-      _nw.portal.config.parameters.Erase(i);
+void NetWizard::remove(NetWizardField* field) {
+  for(int i=0; i < _nw.portal.config.fields.Size(); i++){
+    if(_nw.portal.config.fields[i] == field){
+      _nw.portal.config.fields.Erase(i);
       return;
     }
   }
+}
+
+NetWizardField* NetWizard::_findField(uint32_t id) {
+  for(int i=0; i < _nw.portal.config.fields.Size(); i++){
+    if(_nw.portal.config.fields[i]->_id == id){
+      return _nw.portal.config.fields[i];
+    }
+  }
+  return nullptr;
 }
 
 void NetWizard::_connect(const char* ssid, const char* password, bool autoreconnect) {
@@ -554,19 +553,13 @@ void NetWizard::_generateSchemaJson(String& str) {
   JsonArray arr = json.to<JsonArray>();
 
   // Create nested objects
-  for(int i=0; i < _nw.portal.config.parameters.Size(); i++){
-    NetWizardParameter *p = _nw.portal.config.parameters[i];
+  for(int i=0; i < _nw.portal.config.fields.Size(); i++){
     #if ARDUINOJSON_VERSION_MAJOR == 7
       JsonObject obj = arr.add<JsonObject>();
     #else
       JsonObject obj = arr.createNestedObject();
     #endif
-    obj["id"] = p->_id;
-    obj["t"] = paramTypes[p->_type].type;
-    obj["n"] = p->_name;
-    obj["v"] = p->_value;
-    obj["p"] = p->_placeholder;
-    obj["r"] = p->_required;
+    _nw.portal.config.fields[i]->toJson(obj);
   }
 
   // Serialize JSON to string
@@ -705,27 +698,30 @@ void NetWizard::_generateScanJson(String& str) {
 }
 
 bool NetWizard::_parseConfigJson(JsonArray& arr) {
-  // validate parameters
+  // Validate every value first, so a rejected save changes nothing
   for (uint8_t i = 0; i < arr.size(); i++) {
     JsonObject obj = arr[i];
-    // check if id and value are present
-    if (!obj["id"].is<JsonVariant>() || !obj["v"].is<JsonVariant>()) {
+    if (!obj["id"].is<uint32_t>()) {
       return false;
     }
-    // value must be a string
-    if (!obj["v"].is<const char*>()) {
+    NetWizardField *f = _findField(obj["id"].as<uint32_t>());
+    if (f == nullptr || !f->hasValue()) {
+      continue;
+    }
+    if (obj["v"].isNull() || !f->accepts(obj["v"])) {
+      NETWIZARD_DEBUG_MSG("Rejected a settings value\n");
       return false;
     }
   }
-  
-  // Parse parameters
-  for (uint8_t i = 0; i < arr.size(); i++) {
-    JsonObject obj = arr[i];
-    for (int j = 0; j < _nw.portal.config.parameters.Size(); j++) {
-      NetWizardParameter *p = _nw.portal.config.parameters[j];
-      if (p->_id == obj["id"].as<uint32_t>()) {
-        p->_value = obj["v"].as<const char*>();
-        break;
+
+  // Apply, then release the lock before the sketch's callback reads the values
+  {
+    NetWizardFieldLock lock;
+    for (uint8_t i = 0; i < arr.size(); i++) {
+      JsonObject obj = arr[i];
+      NetWizardField *f = _findField(obj["id"].as<uint32_t>());
+      if (f != nullptr && f->hasValue()) {
+        f->fromJson(obj["v"]);
       }
     }
   }
@@ -1263,10 +1259,9 @@ void NetWizard::_stopPortal() {
 #endif
 
 NetWizard::~NetWizard() {
-  // Clear all parameters
-  for(int i=0; i < _nw.portal.config.parameters.Size(); i++){
-    NetWizardParameter *p = _nw.portal.config.parameters[i];
-    delete p;
-    _nw.portal.config.parameters.Erase(i);
+  // Fields belong to the sketch: detach them so they don't call back into this instance
+  for(int i=0; i < _nw.portal.config.fields.Size(); i++){
+    _nw.portal.config.fields[i]->_parent = nullptr;
   }
+  _nw.portal.config.fields.Clear();
 }
