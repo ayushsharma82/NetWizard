@@ -91,7 +91,7 @@ Netwizard Pro comes with the following extended functionality:
 - Statistics
 - Whitelabel / Branding
 - UI Source
-- Softt Commercial License 1.2
+- Softt Commercial License 1.3
 
 <br> <b>Available here: </b>
 
@@ -117,4 +117,4 @@ Netwizard Pro comes with the following extended functionality:
 
 NetWizard open-source edition is licensed under Affero General Public License v3.0 ( AGPL-3.0 ).
 
-If you are intending to use NetWizard in a commercial project, please consider purchasing [NetWizard Pro](https://netwizard.pro?ref=ghlicense) which comes with a less restrictive SOFTT Commercial License 1.2 (SCL-1.2).
+If you are intending to use NetWizard in a commercial project, please consider purchasing [NetWizard Pro](https://netwizard.pro?ref=ghlicense) which comes with a less restrictive SOFTT Commercial License 1.3 (SCL-1.3).
