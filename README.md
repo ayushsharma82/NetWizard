@@ -1,4 +1,4 @@
-<p align="center"><a href="https://netwizard.pro?ref=ghfeature" target="_blank"><img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/netwizard-feature.png" alt="NetWizard Lite" width="1200"></a></p>
+<p align="center"><a href="https://netwizard.pro?ref=ghfeature" target="_blank"><img src="docs/netwizard-feature.png" alt="NetWizard Lite" width="1200"></a></p>
 <br/>
 <p>
 <img src="https://img.shields.io/github/last-commit/ayushsharma82/NetWizard.svg?style=for-the-badge" />
@@ -50,7 +50,7 @@ NetWizard works on the following microcontrollers/boards:
 <br/>
 <br/>
 
-<img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/netwizard-lite-preview.png" alt="NetWizard Lite setup flow on a phone" width="1200">
+<img src="docs/netwizard-lite-preview.png" alt="NetWizard Lite setup flow on a phone" width="1200">
 
 <br/>
 <br/>
@@ -60,7 +60,7 @@ On a laptop or desktop, the same steps appear in a centered card:
 <br/>
 <br/>
 
-<img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/netwizard-lite-desktop.png" alt="NetWizard Lite portal on desktop" width="1200">
+<img src="docs/netwizard-lite-desktop.png" alt="NetWizard Lite portal on desktop" width="1200">
 
 <br/>
 <br/>
@@ -69,7 +69,7 @@ On a laptop or desktop, the same steps appear in a centered card:
 
 The portal is translated into English, Spanish, French, German, Portuguese, Italian, Russian, Chinese, Japanese, Korean, Arabic and Hindi. By default it follows the language of the visitor's browser, and visitors can switch it from the language picker next to the close button.
 
-<p align="center"><img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/netwizard-languages.gif" alt="NetWizard portal in 12 languages" width="300"></p>
+<p align="center"><img src="docs/netwizard-languages.gif" alt="NetWizard portal in 12 languages" width="300"></p>
 
 To choose the default language yourself, call `setLanguage()` before `autoConnect()`:
 
@@ -100,7 +100,7 @@ Netwizard Pro comes with the following extended functionality:
 <br/>
 
 <a href="https://netwizard.pro?ref=ghpropreview" target="_blank">
-  <img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/docs/pro-preview.png" alt="NetWizard Pro" width="1200">
+  <img src="docs/pro-preview.png" alt="NetWizard Pro" width="1200">
 </a>
 
 <br>
