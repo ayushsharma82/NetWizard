@@ -126,6 +126,15 @@ Netwizard Pro comes with the following extended functionality:
 <br>
 <br>
 
+## Building a product with NetWizard?
+
+<a href="https://softt.io/contact?utm_source=github&utm_medium=readme&utm_campaign=netwizard-oss" target="_blank"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/.github/softt-engineering-dark.svg"><img src="https://raw.githubusercontent.com/ayushsharma82/NetWizard/main/.github/softt-engineering-light.svg" alt="SOFTT Engineering: shipping a product with NetWizard? Book a free engineering review." width="100%"></picture></a>
+
+NetWizard is built and maintained by [SOFTT](https://softt.io/?utm_source=github&utm_medium=readme&utm_campaign=netwizard-oss), an IoT product studio. When the library is one piece of something bigger, the same engineers can design the rest of it, from the electronics and firmware to the cloud dashboard and mobile app, and take it from first brief to pilot run at a fixed price. Start with a **[free 30-minute engineering review](https://softt.io/contact?utm_source=github&utm_medium=readme&utm_campaign=netwizard-oss)**, see **[products we've shipped](https://softt.io/portfolio?utm_source=github&utm_medium=readme&utm_campaign=netwizard-oss)**, or write to **[hello@softt.io](mailto:hello@softt.io)**.
+
+<br>
+<br>
+
 <h2>Contributions</h2>
 <p>Every contribution to this repository is highly appreciated! If you spot any bug or problem, open a issue or pull request so that it can be rectified for everyone.</p>
 
